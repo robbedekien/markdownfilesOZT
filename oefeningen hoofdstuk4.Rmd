@@ -3,9 +3,9 @@ title: "Oefeningen hoofdstuk 4 - steekproefonderzoek"
 author: "Tijs Martens"
 date: "13 maart 2019"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -258,7 +258,7 @@ upper_bound <- 4
 x <- seq(-4, 4, length = 1000) * population_sd + population_mean
 y <- dnorm(x, population_mean, population_sd)
 
-plot(x, y, type="n", xlab = "Waarde", ylab = "Kans", main = "Oefening 3.6", axes = FALSE)
+plot(x, y, type="n", xlab = "Waarde", ylab = "Kans", main = "Oefening 4.6", axes = FALSE)
 lines(x, y)
 
 bounds_filter <- x >= lower_bound & x <= upper_bound
@@ -692,33 +692,250 @@ aantal
 # oefening 4.13.
 ## opgave
 Gegeven 20 examenresultaten in Tabel 4.5. Uit resultaten van de laatste jaren
-blijkt dat ?? = 2.45.
-1. Wat is ??x , de standaardafwijking van x?
+blijkt dat $\sigma$ = 2.45.
+1. Wat is $\sigma$ x , de standaardafwijking van x?
 2. Geef het 92% betrouwbaarheidsinterval voor µ.
 3. Kunnen we er zeker van zijn dat het gemiddeld resultaat minder dan 12.5 bedraagt?
 
 ## oplossing
 
+data
 ```{r}
 tabel <- c(11.5,16.5,11,17.3,10.8,5.6,13.1,11.5,14.2,12.9,8.7,9.2,15,14.4,10,10.3,18.3,12.9,14.2,8.7)
-mean <- mean(tabel)
-mean
-n <- length(tabel)
-sd <- 2.45 / sqrt(20)
-t <- qt(p = 0.04, df = n - 1)
-t <- -t
-links <- mean - t * sd
-rechts <- mean + t * sd
 
 ```
 
+### a.
+
+gemiddelde en afwijking
+
+```{r}
+mean <- mean(tabel)
+mean
+
+deveation <- sd(tabel);
+deveation
+```
+
+de standaardafwijking van de steekproef en de standaardafwijking van de populatie zijn niet het zelfde.
+
+De centrale limietstelling zorgt er wel voor dat deze elkaar benaderen. Hoe groter n(steekproef) hoe dichter deze bij elkaar zullen liggen
+
+### b.
+
+```{r}
+
+n <- length(tabel)
+
+sd <- 2.45 / sqrt(20)
+
+t <- qt(p = 0.04, df = n - 1)
+# 0.04 * 2 = 0.08 
+# 1-0.08 = 0.92
+# 0.92 = 92% betrouwbaarheidsinterval
+t <- -t
+
+links <- mean - t * sd
+rechts <- mean + t * sd
+
+links 
+rechts
+
+```
+
+### c.
+
+gemiddelde van de steekproef is 12.305
+linker grens is 11.29
+rechter grens is 13.31
 
 # oefening 4.14.
 
 _(zelf gemaakt, niet de oplossing)_
 
+
+gegevens:
 ```{r}
-pnorm(26, mean = 30, sd = 5)
+populatie <- 500
+populatieGemiddelde <- 26
+x <- 30
+alpha <- 5
+enkelzijdigeAlpha <- 2.5
+
+
 ```
 
+
+oplossing:
+
+??????????? 
+moet standaardafwijking niet gegeven zijn?
+
+
+# oefening 4.15.
+
+## opgave
+
+Een conservenfabrikant krijgt de laatste tijd klachten over de netto inhoud van
+zijn conserven met wortelen en erwtjes, die volgens de verpakking netto 1 liter zouden moeten
+bevatten. Daarom laat hij een steekproef nemen waarin de netto inhoud van 40 willekeurig
+gekozen blikjes wordt gecontroleerd. De resultaten worden samengevat in Tabel 4.6
+
+vraag a:
+*  Vul de tabel aan met de cumulatieve absolute frequentie
+*  Vul de tabel aan met de relatieve frequentie
+*  Vul de tabel aan met de cumulatieve relatieve frequentie.
+
+vraag b:
+
+* Bereken gemiddelde
+* bereken de standaardafwijking
+* hoeveel procent van de blikken bevatten te weinig wortelen en erwtjes
+* teken een histogram van de absolute frequentie
+* zijn de gegevens normaal verdeeld? hoe zie je dat?
+
+
+## oplossing
+
+overnemen van de tabel
+```{r}
+inhoud <- c('[970, 980[','[980, 990[','[990, 1000[','[1000, 1010[','[1010, 1020[','[1030, 1040[')
+
+voorkomens <- c(975,975,975,985,985,985,985,985,995,995,995,995,995,995,995,995,995,995,995,995,995,1005,1005,1005,1005,1005,1005,1005,1005,1005,1005,1005,1015,1015,1015,1015,1015,1025,1025,1025)
+
+```
+
+
+## vraag a
+
+hoe doe je dit met R????
+
+## vraag b
+
+gemiddelde:
+```{r}
+gem <- mean(voorkomens)
+gem
+```
+
+standaardafwijking:
+```{r}
+afwijking <- sd(voorkomens)
+afwijking
+```
+
+procent te kort:
+```{r}
+tekort <- pnorm(999, gem, afwijking)
+tekort * 100
+```
+
+historgram:
+```{r}
+hist(voorkomens, breaks = 5)
+```
+
+### normaal verdeeld?
+
+#### antwoord 
+
+uit de histram kunnen we afleiden dat een normaal verdeling aanwezig is
+* klokvormig
+* symetrisch rond het gemiddelde
+
+
+#### alternatieve manieren om dit te weten
+
+1. berekenen van het aantal waarden binnen een afstand van 1 standaardafwijking
+```{r}
+
+# ?????
+
+```
+
+2. een qq plot maken
+
+```{r}
+n <- length(voorkomens)
+sig <- sd(voorkomens)
+avg <- mean(voorkomens)
+
+## bolletjes plaatsen
+qqnorm(voorkomens)
+
+## lijn maken
+x <- seq(-3, 3, length = n)
+lines(x ,gem + sig * x, col = "red")
+```
+
+de waarden liggen mooi verdeeld rond de rechte. dit duidt op een normale verdeling
+
+
+3. bereken de kurtosis
+```{r}
+
+#install.packages("e1071")
+
+library(e1071)
+
+
+kurtosis(voorkomens)
+```
+
+een kortosis die niet ver van 0 afwijkt duidt op een normale verdeling.
+* 0 kurosis = normaal verdeeld
+* negatieve kurtosis = vlakke distributie
+* positieve kurtosis = piekvormige distributie
+
+
+4. skewness berekenen
+
+```{r}
+skewness(voorkomens)
+```
+
+een skewness die dicht bij 0 is duidt op een normale verdeling
+* 0 skewness = normaal verdeeld
+* negatieve skewness = lange linkse kant
+* positieve skewness = lange rechtse kant
+
+
+
+
+# oefening 4.16.
+
+## opgave 
+
+Een webhostingfirma heeft een Service Level Agreement met een klant voor
+een gegarandeerde uptime van "five nines" (99,999%). Die wordt aan het einde van elk jaar
+gecontroleerd en als de minimale uptime niet gehaald wordt, moet de hostingfirma een boete
+betalen.
+
+Om de uptime te meten, voert een monitoringsysteem elke minuut een HTTP GET / uit en
+controleert het resultaat a.h.v. de HTTP return code. In de maand januari is er één enkele HTTP
+request onsuccesvol geweest.
+
+* Als deze trend zich voortzet, wat is de kans dat de SLA niet gehaald wordt aan het einde
+van het jaar? Gebruik de formule voor de kansverdeling van een fractie.
+
+* De gebruikte formule is eigenlijk niet geschikt in dit specifieke geval en geeft een vertekend
+beeld. Wat zou de reden kunnen zijn?
+
+## oplossing
+
+```{r}
+n <- 60*24*31
+n
+# n = aantal minuten in de maand januari
+
+aantalFalen <- 1
+aantalSuccessen <- n - aantalFalen 
+
+succespercentage <- (aantalSuccessen/n) * 100
+succespercentage
+```
+
+nee, als deze trend verder gezet wordt, zal de SLA niet gehaald worden.
+
+Deze formule is niet geschikt voor dit soort vraagstukken omdat de fractie veel te klein is.
 
