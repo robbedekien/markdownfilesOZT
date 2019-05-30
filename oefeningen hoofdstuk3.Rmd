@@ -1,7 +1,7 @@
 ---
-title: "Oefeningen hoofdstuk 3 - analyse op 1 variabele"
-author: "Tijs Martens"
-date: "6 maart 2019"
+title: "Oefeningen hoofdstuk 5 - Toetsingsprocedures"
+author: "TijsMartens"
+date: "3 april 2019"
 output:
   pdf_document: default
   html_document:
@@ -12,559 +12,402 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# oefening 3.1.
+# oefening 5.1. 
+
 _(oefening zelf gemaakt, geen oplossing)_
 
 ## opgave
 
-
-wat is de gemiddelde lengte van de superhelden
-
-lengtes van de helden:
-
-* x1 = 141
-* x2 = 198
-* x3 = 143
-* x4 = 201
-* x5 = 184
-
-## oplossing
-_zie cursus blad 1_
-
-oplossing is 173.4
-
-# oefening 3.2. 
-
-## opgave
-
-Het gemiddelde van 15 cijfers is 12. Welk nummer moeten we aan de rij
-van cijfers toevoegen om een gemiddelde van 13 te bekomen? 
+kunnen we in voorbeeld 5.1. zomaar veronderstellen dat het gemiddelde normaal verdeeld is, waarom
 
 ## oplossing
 
-_zie cursus blad 1_
+Ja, door de centrale limietstelling
 
-oplossing is 28
+# oefening 5.2.
 
-# oefening 3.3.
-
-## opgave
-
-Met welke voorgaande statistiek komt Q2 overeen
-
-## oplossing
-
-Mediaan
-
-Als de mediaan een lijst in 2 delen splitst kan de mediaan van de eerste lijst gezien worden als Q1
-
-Als de mediaan een lijst in 2 delen splitst kan de mediaan van de tweede lijst gezien worden als Q3
-
-
-# oefening 3.4.
 _(oefening zelf gemaakt, geen oplossing)_
 
 ## opgave
 
- De formules voor gemiddelde $\mu$ en variantie $\sigma^2$ staan beschreven in secties 3.2 en 3.7, resp. Hoe moeten deze formules aangepast worden om $\mu$ en  $\sigma^2$ te berekenen wanneer we te maken hebben met een frequentietabel? Doe dit voor de data in tabel 3.3. 
+Wat zou je in vergelijking 5.3. moeten veranderen opdate je de correctie kritieke waarde zou berekenen voor een linkszijdige toets
 
 ## oplossing
 
-orginele formules:
+orginineel (voor rechtse toets):
+$g = \mu + z * \frac{\sigma}{\sqrt n}$
 
-$\mu = 1(/2) * \sum_i^n x_i$
+oplossing voor linkse toets:
+$g = \mu - z * \frac{\sigma}{\sqrt n}$
 
-$\sigma^2$ = de som van alle verschillen met het gemiddelde gedeeld door het aantal voorkomens
 
-_zie cursus blad 2_
 
-**oplossing chamilo:**
+# oefening 5.3. 
 
-de mogelijke scores
+_(oplossing vanuit de les)_
+
+betrouwbaarheidsintervallen
+
+## opgave
+
+1. Wat is de onder- en bovengrens van een betrouwbaarheidsinterval van 99%? 
+2. Een betrouwbaarheidsinterval van 99% is breder dan een van 95%. Waarom is dit zo? 
+3. Hoe zou het betrouwbaarheidsinterval voor 100% er uit zien?
+
+## oplossing
+
+oplossing:
+
+1.
+
+betrouwbaarheisinterval = 99%
+=> alpha = 1%
+=> er is een tweezijdige toets, de alpha moet in de berekeningen dus gedeeld worden door 2
 ```{r}
-x <- 0:10
-x
+ondergrens <- qnorm(0.01/2)
+ondergrens
+
+
+bovengrens <- -1 * ondergrens
+bovengrens
 ```
 
-het aantal voorkomens van elke score:
+2. 
+
+Als een betrouwbaarheidsinterval 99% is. Dan weten weten we dat 99% procent van de populatiegemiddelden binnen het betrouwbaarheidsinterval liggen.
+
+Bij het al dan niet verwerpen van een hypothese wordt er gekeken als de gemeten waarde binnne of buiten dit bereik valt. Als het er buiten valt, mag de hypothese verworpen worden.
+
+Het is dus moeilijkere om een hypothese te verwerpen waarbij een betrouwbaarheidsinterval gehanteerd wordt van 99% dan bij een betrouwbaarheidsinterval van 95%
+
+Je kan zelf bepalen hoe "streng" je je testen maakt,
+* kleine alpha = breed betrouwbaarheidsinterval = moeilijk te verwerpen
+* grote alpha = smaller betrouwbaarheidsinterval = makkelijker om te verwerpen
+
+
+3.  
+
+Je bent dan 100% zeker dat het populatiegemiddelde binnen het betrouwbaarheidsinterval ligt, de volledige x-as is dan je bereik
+]-oneindig, +oneindig[
+
+elke waarde valt hier binnen, dit is dus helemaal niet nuttig.
+
+
+# oefening 5.4. 
+
+_(oplossing vanuit de les)_
+
+## opgave
+
+ Er wordt gezegd dat het invoeren van een bindend studieadvies (BSA) een rendementsverhoging tot gevolg heeft in slaagkans. Voor het invoeren van het BSA was in de studentenpopulatie het gemiddelde aantal behaalde studiepunten per jaar per student gelijk aan 44 met een standaardafwijking van 6,2. Na invoering van het BSA wijst een onderzoek uit onder 72 studenten dat deze een gemiddeld aantal studiepunten haalden van 46,2.
+
+## hypothesen
+
+- $H_0 : \mu = 44$
+- $H_1 : \mu > 44 (i.e. er is een rendementsverhogen$
+
+## gegeven
+
+- $\alpha = 2.5$
+- $\sigma = 6.2$
+- $n = 72$
+
+## oplossing met overschreidingskans
 ```{r}
-f_x <- c(2,1,2,0,2,4,9,11,13,8,8)
-f_x
+alpha <- 0.025 
+sigma <- 6.2
+mean = 44
+test = 46.2
+n <- 72
+p <- 1 - pnorm(test, mean, sd = sigma/sqrt(n))
+p
+
+
+if (p < alpha) {
+  print("we mogen H0 verwerpen")
+}else
+{
+  print("we hebben niet genoeg bewijs om H0 te verwerpen")
+}
 ```
 
-gemiddelde:
+de p-test levere een resultaat op van 1.3% dit is kleiner dan 2.5 procent.
+het valt dus buiten het betrouwbaarheidsinterval.
+Dit heeft als gevolg dat we h0 mogen verwerpen
+
+## oplossing van kritiek gebied
+formule om g te berekenen (grenswaarde)
+
+$g = \mu + z *\frac{\sigma}{\sqrt{n}} $
+
 ```{r}
-m <- sum(x*f_x)/sum(f_x)
-m
+# qnorm = onder welk grens zal p% van de waarnemingen liggen
+
+g <- qnorm(1 - alpha, mean, sd = sigma/sqrt(n))
+g
+test
+
+if (test > g) {
+  print("we mogen H0 verwerpen")
+}else
+{
+  print("we hebben niet genoeg bewijs om H0 te verwerpen")
+}
 ```
+
+
+ons testgeval (waarde: 46.2) is groter dan onze grenswaarde (45.43). Omdat dit het geval is mogen we h0 verwerpen
+
+
+## geef een interpretatie van wat \alpha = 2.5% betekend.
+
+De alpha waarde bepaald hoe 'streng' we zullen testen. bij een alpha van 2.5% zullen 97.5% van de steekproefgemiddelden zicht in het aanvaardbaar gebied bevinden. 
+
+2.5% van de waarden zullen hierbuiten vallen. Deze worden gezien als "extreem" of "significant". als het steekproefgemiddelde hiertoe behoord, kan de bijhorende nullhypothese verworpen worden.
+
+Deze stellingen zijn enkel correct bij een normaal verdeelde set aan data
+
+# oefening 5.4. bis
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## algemene gegevens
 
 ```{r}
-v <- sum(f_x * (x - m) ^ 2) / sum(f_x)
-v
+mu <- 44
+sigma <- 6.2
+z <- pnorm(46.2, mu, sigma)
+alpha <- 0.025
+n <- 72
+test <- 46.2
 ```
 
-standaardafwijking:
+## 1.
+
 ```{r}
-stdev <- sqrt(v)
-stdev
-```
-# oefening 3.5
-## we gaan na als volgende formules een goed alternatief zijn voor die van de variantie
+overschreidingswaardeG <-  qnorm(1-alpha, mean, sd = sigma/sqrt(n))
 
-* $\sum_i^n(x_i - \mu)$
-* $\sum_i^n \mid (x_i - \mu) \mid$
-* $\sum_i^n (x_i - \mu)^2$
-
-### allocatie van de sets
-```{r }
-x <- c(4,4,-4,-4)
-y <- c(7,1,-6,-2)
+overschreidingswaardeG
+test
 ```
 
-### formule 1
-```{r }
-meanX <- mean(x)
-meanY <- mean(y)
+de te testen waarde is groter dan de kritieke grenswaarde. Het gemiddelde is dus gestegen
 
-var_1x <- x - meanX
-var_1y <- y - meanY
-var_1x
-var_1y
+## 2. 
 
-som_1x <- 1/length(x) * sum(var_1x)
-som_1y <- 1/length(y) * sum(var_1y)
-
-plot(x,type="h", col='red', lwd=3)
-plot(y,type="h", col='red', lwd=3)
-
-
+```{r}
+p <- 1 -  pnorm(test, mean, sd = sigma/sqrt(n))
+p
+alpha
 ```
 
-#### Conclusie
+de overshchreingskans p (0.0013) is kleiner da alpha, we mogen $H_0$ dus verwerpen
 
-we zien dat voor beide datasets een zelfde waarde bepaald wordt, alhowel de grafieken duidelijk een andere spreiding vertonen . Laten we eens onderzoeken of we it kunnen oplossen door de absolute waarde te gaan bepael van de sommatie
+## 3. 
 
+als alpha 2.5% of 0.025is kunnen we veronderstellen dat 97.5% van de steekproeven bij een normaal verdeelde dataset binnen het betrouwbaarheidsinterval liggen
 
-### formule 2
-
-```{r }
-var_2x <- abs(x - meanX)
-var_2x
-var_2y <- abs(y - meanY)
-var_2y
-
-sum_2x <- 1/length(x) * sum(var_2x)
-sum_2y <- 1/length(y) * sum(var_2y)
-
-sum_2x
-sum_2y
-```
-#### conclusie
-Het probleem hierbij dat we voor beide datasets, hoewel dzez duidelijk visueel een verschillende spreiding hebben, dezelfde waarde bepaald wordt. Blijkbaar
-worden kleine waarden evenwaardig beschouwd als grote waarden (deviaties). Dit wordt natuurlijk opgelost door kwadraat te nemen
-
-###formule 3
-```{r }
-var_3x <- var(x)
-var_3y <- var(y)
-
-var_3x
-var_3y
-
-```
+Als een waarde buiten de kritieke grenswaarde valt, is er slechts 2.5% kans dat hij uit de populatie getrokken is. Deze kans is dus heel klein. In dit geval met de nulhypothese verworpen worden
 
 
-# oefening 3.6.
+
+# oefening 5.5.
+
 _(oefening zelf gemaakt, geen oplossing)_
 
 ## opgave
 
-Zoek eens zelfstandig op wat de variatiecoëfficient is, Hoe wordt die gedefinieed voor een volledige populatie en wat zou je ermee kunnen doen.
+Eén van de motieven voor het kiezen van een garage is de inruilprijs voor de oude auto. De importeur van Ford wil graag dat deverschillende dealers een gelijk prijsbeleid voeren. De importeur vindt dat het gemiddelde prijsverschil tussen de dichtstbijzijnde Ford-dealer en de dealer waar men de auto gekocht heeft hoogstens e300 mag bedragen. De veronderstelling is dat als het verschil groter is, potentiële klanten eerder geneigd zullen zijn om bij hun vorige dealer te blijven.
+In een steekproef worden volgende verschillen genoteerd:
+
+400 350 400 500 300 350 200 500 200 250 250 500 350 100
+
+Toets of er reden is om aan te nemen dat het gemiddelde prijsverschil in werkelijkheid significant groter is dan ???300. Gebruik een significantieniveau van 5%.
 
 ## oplossing
 
-*wat*: Het is een relatieve spreidingsmaat. De spreiding wordt gemeten ten opzichte van het gemiddelde.
+```{r}
+data <- c(400,350,400,500,300,350,200,500,200,250,250,500,350,100)
+mean <- mean(data)
+sigma <- sd(data)
+alpha <- 0.05
+test <- 300
+n <- 14
 
-*variatiecoëfficient voor de populatie*:
-$C_v = \frac{\sigma}{|\mu|}$
+mean
+sigma
+```
 
-*variatiecoëfficient voor de populatie*
-$C_v = \frac{\sigma}{\bar{a}}$
+```{r}
+g <- qnorm(1 - alpha, mean, sd = sigma/sqrt(n))
+g
+```
+we zijn rechs aan het toetsten dus het steekproefgemiddelde ligt niet in het kritieke gebied.
+het steekproefgemiddelde situeert zich dus wel in het aanvaardbaar gebied
 
-De variatiecoëfficient kan gebruikt worden om eenvoudig standaardafijkingen van datasets met elkaar te vergelijken.
+we mogen H0 niet verwerpen
+
+test = 300
+grens = 386.40
 
 
+```{r}
+p <- pnorm(test, mean,sd = sigma/sqrt(n))
+p
+```
+p is groter dan alpha, het ligt dus in het te aanvaarden gebied. we mogen de H0 niet verwerpen
+
+p = 0.16
+alpha = 0.05
 
 
-# oefening 3.7.
-_(oefening zelf gemaakt, geen oplossing)_
+# oefening 5.6.
 
 ## opgave
 
-Beschouw de volgende datasets uit het data frame "ais" (uit de library DAAG)
-
-1. Ontleed de gegevens voor de roeiers
-2. ontleed de gegevens voor de roeiers, netballers en de tennissers
-3. ontleed de gegeven svoor de vrouwelijke besketballers en roeiers
-
-## oplossing
-
-0. installeren van de benodigde packages
-
-```{r}
-#install.packages("DAAG")
-#install.packages("latice")
-```
-
-1. Ontleed de gegevens voor de roeiers.
-
-```{r}
-roeiers <- subset(DAAG::ais,sport=="Row")
-roeiers
-
-myvars <- c("ht")
-newdata <- roeiers[myvars]
-summary(newdata)
-```
-
-2. ontleed de gegevens van de roeiers, de netballers en de tennisseres
-
-```{r}
-roeinetball <- subset(DAAG::ais,sport=="Row" | sport=="Netball" | sport=="Tennis")
-roeinetball
-
-myvars <- c("ht")  
-newdata <- roeinetball[myvars]
-summary(newdata)
-```
-
-3. ontleed de gegevens voor de vrouwelijke basketballers en roeiers
-
-```{r}
-vrouwen <- DAAG::ais[DAAG::ais$sex == 'f' & (DAAG::ais$sport == 'B_Ball' | DAAG::ais$sport == 'Row'),]
-    vrouwen$sex <- factor(vrouwen$sex)
-    vrouwen$sport <- factor(vrouwen$sport)
-    vrouwen
-```
-
-# oefening 3.8.
-_(oefening zelf gemaakt, geen oplossing)_
-
-## opgave
-
-Gebruik de functies mean en range om het gemiddelde en bereik van:
-
-1. de cijfers 1, 2, . . . , 21
-2. 50 willekeurige normale waarden, die worden gegenereerd vanuit een normale distributie
-met gemiddelde 0 en variantie 1 (functie rnorm)
-3. de kolommen height en weight in de data frame women (standaard in R).
-
+In Oefening 3.9 en volgende hebben we de resultaten van performantiemetingen voor persistentiemogelijkheden in Android geanalyseerd (Akin, 2016). Er werden experimenten uitgevoerd voor verschillende combinaties van hoeveelheid data (klein, gemiddeld, groot) en persistentietype (GreenDAO, Realm, SharedPreferences, SQLite). Voor elke hoeveelheid data hebben we kunnen bepalen welk persistentietype het beste resultaat gaf.
+Nu gaan we uitzoeken of het op het eerste zicht beste persistentietype ook signi???cant beter is dan de concurrentie.
+Concreet: ga aan de hand van een toets voor twee steekproeven voor elke datahoeveelheid na of het gemiddelde van het best scorende persistentietype signi???cant lager is dan het gemiddelde van (i) het tweede beste en (ii) het slechtst scorende type .
+Kunnen we de conclusie aanhouden dat voor een gegeven datahoeveelheid één persistentietype het beste is, d.w.z. signi???cant beter is dan gelijk welk ander persistentietype
 
 ## oplossing
+_(overgenomen van chamilo)_
 
-### deel 1
-
+inlezen data
 ```{r}
-lijst <- c(1:21)
-lijst 
+library(readr)
 
-mean(lijst)
-range(lijst)
-```
-
-### deel 2
-
-```{r}
-randomLijst <- rnorm(n = 50, mean = 0, sd = sqrt(1))
-
-randomLijst
-
-mean(randomLijst)
-sd(randomLijst)
-```
-
-
-### deel 3
-
-```{r}
-women # is een tabel die standaard in R zit.
-```
-
-```{r}
-mean(women$height)
-median(women$height)
-## r heeft geen functie voor modus
-range(women$height)
-quantile(women$height)
-sd(women$height)
-```
-
-```{r}
-
-mean(women$weight)
-median(women$weight)
-## r heeft geen functie voor modus
-range(women$weight)
-quantile(women$weight )
-sd(women$weight)
-```
-
-# oefening 3.9
-_(oefening zelf gemaakt, geen oplossing)_
-
-## opgave
-
-Open de file met excel en bekijk de structuur van het document. Hoe ziet die er
-uit? Kan je de variabelen identificeren en hun type benoemen
-
-## oplossing
-
-```{r}
 android_cpu <- read.csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/oefeningen/data/hfst3_1variabele/android_persistence_cpu.csv", sep=";", dec=",")
-
-attach(android_cpu)
-
-#android_cpu
-
-typeof(Tijd)
-typeof(PersistentieType)
-typeof(Datahoeveelheid)
-
-```
-
-variabelen zijn
-
-* tijd
-* persistentietype
-* datahoeveelheids
-
-```{r}
-summary(android_cpu)
-
-sd(android_cpu$Tijd)
-mean(android_cpu$Tijd)
 ```
 
 
-# Oefening 3.10.
-_(oefening zelf gemaakt, geen oplossing)_
+voorbeeld 1: medium reals & dao
 
-## opgave
+1. subset nemen van alle records waarbij de datahoeveelheid medium is
+```{r}
+subset_medium <- subset(android_cpu, android_cpu$Datahoeveelheid=="Medium")
+subset_medium
+```
 
-Als je de vorige metrieken berekend hebt, wat kan je daar dan over zeggen. Kan je zinnige conclusies trekken uit de vorige resultaten. Zo ja vermeld ze, zo nee beschrijf waarom je dat denkt. 
-
-## oplossing
-
-
-Ik denk niet dat je uit vorige data conclussies kan trekken omdat je niet weet over welkk PU ze praten.
-je weet bv. niet bij welke PU het minimum van 1.090 werd bereikt.
-
-Je kan wel afleiden dat er wel degelijk veel tijdverschil was tussen de de PU's maar dit kan natuurlijk ook een gevolg zijn van de data hoeveelheid. Maar deze relaties kan je dus niet afleiden uit deze data.
-
-**Oplossing Chammillo:**
-
-Enkel gegevens over de tijd zijn zichtbaar maar niet per categorie. Zinnige conclusies trekken is dus niet evident.
-
-# oefening 3.11.
-_(oefening zelf gemaakt, geen oplossing)_
-
-## opgave
-
-Een histogram is een eenvoudige plot. het toont de frequenties van de data die in een bepaald bereik
-voorkomen.
+2. filteren van reals en dao
 
 ```{r}
-hist(android_cpu$Tijd, main = "verdeing van de tijd", xlab = "De gemeten cpu tijd");
-#default "break" = 10
+times_medium_realm <- subset_medium$Tijd[which(subset_medium$PersistentieType == "Realm")]
+times_medium_greendao <- subset_medium$tijd[which(subset_medium$PersistentieType == 'GreenDao')]
 
-hist(android_cpu$Tijd, main = "verdeing van de tijd", xlab = "De gemeten cpu tijd", breaks = 1);
+times_medium_realm
+times_medium_realm
+```
 
-hist(android_cpu$Tijd, main = "verdeing van de tijd", xlab = "De gemeten cpu tijd", breaks = 20);
+3. uitvoeren van de test
+
+```{r}
+t.test(times_medium_realm, times_medium_greendao, alternative = 'less')
+```
+
+
+voorbeeld 2: small voor realm & shared preferences
+
+1. subset nemen van alle records waarbij de datahoeveelheid small is
+```{r}
+subset_small <- subset(android_cpu, android_cpu$Datahoeveelheid=="Weinig")
+subset_small
 
 ```
 
-Wat concludeer je als je bovenstaande grafieka genereert? Is dit een zinnig
-resultaat? Wat gebeurt er als je de variabele breaks verhoogt? 
-
-## oplossing
-
-### nuttig?
-Het is niet zo nuttig om te weten hoe vaak een bepaalde uitkomst voorkomt
-Het lijkt mij interessanter om te zien wat de gemiddelde cpu tijd per persistence unit is
-
-### breaks
-
-de "breaks" variabele steltin in hoeveel categoriëren de dataset gesplitst wordt. 
-default is deze waarde 10.
-
-
-**oplossing chamilo:**
-De voorkomens van per cpu tijd zijn zichtbaar. Je kan afleiden dat er 1 groot interval is en deze dus de mean kan beïnvloeden. De categorieën zijn echter niet zichtbaar dus er is niet veel nut aan de grafiek  Op de x as zijn de intervallen vergroot.
-
-
-# Oefening 3.12.
-_(oefening zelf gemaakt, geen oplossing)_
-
-## Opgave
-
-De boxplot wordt standaard verticaal getekend
-
+2. realm en greendao filteren
 ```{r}
-boxplot(android_cpu$Tijd, main="spreiding van de CPU tijd", ylab ="tijd in ms")
-```
-## Oplossing
+times_small_realm <- subset_small$Tijd[which(subset_medium$PersistentieType == "Realm")]
+times_small_greendao <- subset_small$tijd[which(subset_medium$PersistentieType == 'GreenDao')]
 
-**oplossing chamilo:**
-
-
-
-
-# Oefening 3.13.
-_(oefening zelf gemaakt, geen oplossing)_
-
-## Opgave
-
-Als je goed geantwoord hebt op de volgende vragen merk je natuurlijk dat het weinig zin heeft de
-volledige dataset te analyseren, aangezien de dataset verdeeld is over verschillende categorieën. We
-willen dus wel deze statistieken weten, maar per categorie. We kunnen dus een boxplot maken voor elke categorie
-
-```{r}
-boxplot(android_cpu$Tijd~android_cpu$Datahoeveelheid, main = "spreiding van de cpu tijd t.o.v. datahoeveelheid", xlab = "Tijd in miliseconden",ylab = "datahoeveelheid", horizontal = TRUE)
+times_medium_realm
+times_medium_realm
 ```
 
-Interpreteer de resultaten die je behaalt uit deze grafiek. Zijn deze al wat zinniger?
 
-## Oplossing
-
-Nee niet echt, Het is logisch dat bij een grote datahoeveelheid de tijd in miliseconden groter zal zijn
-
-Het is wel opvallend dat de spreiding bij medium grote datahoeveelheden heel groot is.
-We weten natuurlijk niet wat de intervallen zijn die "medium" definieeren. Als dit interval breder is dan bij "klein" en "groot" is deze observatie logisch
-
-**oplossing chamilo:**
-
-Er is een duidelijker overzicht met uitschieters van de datahoeveelheid. De volledige data is echter nog niet weergegeven.
-
-# oefening 3.14
-_(oefening zelf gemaakt, geen oplossing)_
-
-## opgave
-
+3. uitvoeren van de t test
 ```{r}
-boxplot(android_cpu$Tijd~android_cpu$PersistentieType, main = "spreiding van de cpu tijd t.o.v. persistentieunit", xlab = "Tijd in miliseconden",ylab = "PU", horizontal = TRUE)
+t.test(times_small_realm, times_small_greendao, alternative = 'less')
 ```
 
-Zijn deze resultaten zinniger?
 
-## oplossing
+# oefening 5.7.
 
-Nee niet echt
+_(oplossing vanuit de les)_
 
-
-
-# oefening 15
-
-We moeten de data dus onderverdelen in categorieën namelijk onder PersistentieType en
-Datahoeveelheid. We gaan hiervoor de functie which1 gebruiken en kijken hoe de verschillende
-datahoeveelheden verschillen per datahoeveelheidcategorie.
-
+dataset inladen:
 ```{r}
-greenDOA <- android_cpu[which(android_cpu$PersistentieType=='GreenDAO'),];
+library(readr)
 
-boxplot(greenDOA$Tijd~greenDOA$Datahoeveelheid)
+puntenlijst <- read_csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/oefeningen/data/hfst5_toetsing/puntenlijst.csv", col_types=cols(Groep = col_factor(levels = c("A","B","C","d","E","F","G","H"))))
+
+puntenlijst
 ```
 
-wat conludeer je
-
-
-## oplossing
-
-dat deze persistence unit recht evenredig werkt in functie van de datahoeveelheid. (zoals verwahct)
-
-Bij medium is de spreiding wel opvallend hoog.
-
-
-
-
-
-
-
-
-
-# voorbeelden
-blz 38 
-
-## bewerkingen op een vector
+we bekijken eerst de centrummaten en spreidingsmaten voor de ganse dataset
 
 ```{r}
-a <- c(1,2,3,4)
-a
+summarySet <- summary(puntenlijst)
+summarySet
+stdevSummary <- sd(puntenlijst$Score,na.rm = TRUE)
+stdevSummary
+```
+
+Nu bekijken we de centrummaten en spreidingsmaten voor de verschillende klassen
+
+```{r} 
+subsetA <- puntenlijst[which(puntenlijst$Groep == "A"),]
+summaryA <- summary(subsetA)
+summaryA
+
+```
+
+
+```{r} 
+subsetB <- puntenlijst[which(puntenlijst$Groep == "B"),]
+summaryB <- summary(subsetB)
+summaryB
+```
+
+
+```{r} 
+subsetC <- puntenlijst[which(puntenlijst$Groep == "C"),]
+summaryC <- summary(subsetC)
+summaryC
+```
+
+
+```{r} 
+
+subsetD <- puntenlijst[which(puntenlijst$Groep == "D"),]
+summaryD <- summary(subsetD)
+summaryD
+```
+
+```{r}  
+subsetE <- puntenlijst[which(puntenlijst$Groep == "E"),]
+summaryE <- summary(subsetE)
+summaryE
+```
+
+```{r} 
+subsetF <- puntenlijst[which(puntenlijst$Groep == "F"),]
+summaryF <- summary(subsetF)
+summaryF
+```
+
+```{r} 
+subsetG <- puntenlijst[which(puntenlijst$Groep == "G"),]
+summaryG <- summary(subsetG)
+summaryG
 ```
 
 ```{r}
-a <- a + 5 
-a
-```
-```{r}
-a <- a * 3
-a
-```
-
-```{r}
-b <- a -15
-b
-```
-
-```{r}
-# wortel 
-sqrt(a)
+subsetH <- puntenlijst[which(puntenlijst$Groep == "H"),]
+summaryH <- summary(subsetH)
+summaryH
 ```
 
 
 
-## analyses op 1 variabele
-```{r}
-#inlezen csv
-computers <- read.csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/cursus/data/computers.csv")
 
-# vermijden dat er steeds computers$ moet getypt worden
-attach(computers)
-```
-
-```{r}
-#gemiddelde
-mean(price)
-```
-
-```{r}
-#mediaan
-median(price)
-```
-
-```{r}
-#kwartielen
-quantile(price)
-```
-
-```{r}
-#minimum
-min(price)
-
-#maximum
-max(price)
-```
-
-```{r}
-#variantie
-var(price)
-
-#standaardafwijking 
-sd(price)
-```
-
-
-```{r}
-## alles
-
-summary(computers)
-```
