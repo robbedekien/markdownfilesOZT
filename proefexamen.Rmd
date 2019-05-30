@@ -1,0 +1,58 @@
+---
+title: 'oefeningen hoofdstuk 8 - tijdsreeksen '
+author: "TijsMartens"
+date: "12 april 2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Vraag 1
+## a
+
+```{r}
+mean(mtcars$mpg)
+```
+
+antwoord: 20.091
+
+## b
+```{r}
+summary(mtcars$mpg)
+```
+
+antwoord: 
+
+* 15.43
+* 20.09
+* 22.80
+
+
+
+
+# Vraag 2
+
+## a
+```{r}
+# data in te geven in script "betrouwbaarheidsinterval"
+
+#----------------------------------------- Input Gegevens ---------------------------------------------
+
+data =  rnorm(113, 80.08, 12.13)
+
+steekproefgemiddelde <- mean(data)
+standaardAfwijkingPopulatie <- 2.45 # Hier NIET de standaardafwijking van de steekproef invullen!!!
+n <- 113      # steekproefgrootte
+betrouwbaarheidsinterval = 0.95 # Hier het betrouwbaarheidsinterval invullen! Niet alpha (wordt berekend)
+
+
+```
+
+oplossing
+
+

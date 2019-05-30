@@ -1,0 +1,123 @@
+---
+title: 'oefeningen hoofdstuk 8 - tijdsreeksen '
+author: "TijsMartens"
+date: "12 april 2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+x <- round(rnorm(50, 50, 10))
+x
+```
+
+
+```{r}
+
+t <- ts(x, frequency = 5)
+t
+```
+
+```{r}
+plot(t)
+
+```
+
+```{r}
+fit <- HoltWinters(t)
+
+plot(fit)
+fit
+```
+merk op dat alpha heel klein is
+
+```{r}
+fit <- HoltWinters(t,beta = FALSE, gamma =FALSE)
+
+plot(fit)
+fit
+```
+merk op dat alpha groter is
+
+
+
+
+
+# voorpselling maken
+```{r}
+library(forecast)
+f <- forecast(fit, 5)
+f
+plot(f)
+```
+
+
+##voorbeelde met stijgende data
+```{r}
+sorted <- sort(x)
+plot(sorted)
+
+
+# dataset laten veriëren
+
+
+
+
+```
+
+dataset laten veriëren:
+```{r}
+eta <- rnorm(50,0,2)
+betaTS <- sorted + eta
+```
+
+
+tijdsreeks maken
+```{r}
+tB <- ts(betaTS, frequency = 10)
+plot(tB)
+```
+de grafiek stijgt, dus we moeten beta gerbuiken
+
+```{r}
+fitB <- HoltWinters(tB, alpha = TRUE, beta = TRUE, gamma=FALSE)
+fitB
+plot(fitB)
+```
+de eerste drie zijn niet ingevuld, want er zijn minstens drie voorgaande observaties nodig om een voorspelling te kunnne maken.
+
+
+## voorspelling maken
+```{r}
+fB <- forecast(fitB, 3)
+plot(fB)
+```
+
+### werken met een seizoenscomponent
+
+```{r}
+x <- seq(1:50)
+y <- sin(x)
+eta <- rnorm(50,0, 0.5)
+y <- y + 4 + eta
+ty <- ts(y, frequency = 10)
+plot(ty)
+```
+
+```{r}
+my <- HoltWinters(ty)
+plot(my)
+my
+
+##voorspelling
+fy <- forecast(my, 30)
+plot(fy)
+```
+merk op dat de periodes (de dalen en de pieken) worden meegenomen in de voorspelling

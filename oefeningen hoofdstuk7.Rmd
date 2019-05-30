@@ -1,0 +1,47 @@
+---
+title: "oefeningen hoofdstuk 7 - De X² kwadraat toets"
+author: "TijsMartens"
+date: "12 april 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Oefening 7.2. 
+
+Inlezen van de file (afkomstig uit de library)
+
+```{r}
+library(MASS)
+
+View(Aids2)
+```
+
+```{r}
+kruistabel <- table(Aids2$sex, Aids2$T.categ)
+kruistabel
+```
+
+```{r}
+test <- chisq.test(kruistabel)
+test
+
+
+```
+
+
+
+
+
+
+
+# interessante libraries
+
+gplots
+graphics
+- interessant voor examen blijkbaar
+visualize
+- duidelijk tonen van toetsen

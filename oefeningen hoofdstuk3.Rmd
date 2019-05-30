@@ -1,0 +1,570 @@
+---
+title: "Oefeningen hoofdstuk 3 - analyse op 1 variabele"
+author: "Tijs Martens"
+date: "6 maart 2019"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# oefening 3.1.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+
+wat is de gemiddelde lengte van de superhelden
+
+lengtes van de helden:
+
+* x1 = 141
+* x2 = 198
+* x3 = 143
+* x4 = 201
+* x5 = 184
+
+## oplossing
+_zie cursus blad 1_
+
+oplossing is 173.4
+
+# oefening 3.2. 
+
+## opgave
+
+Het gemiddelde van 15 cijfers is 12. Welk nummer moeten we aan de rij
+van cijfers toevoegen om een gemiddelde van 13 te bekomen? 
+
+## oplossing
+
+_zie cursus blad 1_
+
+oplossing is 28
+
+# oefening 3.3.
+
+## opgave
+
+Met welke voorgaande statistiek komt Q2 overeen
+
+## oplossing
+
+Mediaan
+
+Als de mediaan een lijst in 2 delen splitst kan de mediaan van de eerste lijst gezien worden als Q1
+
+Als de mediaan een lijst in 2 delen splitst kan de mediaan van de tweede lijst gezien worden als Q3
+
+
+# oefening 3.4.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+ De formules voor gemiddelde $\mu$ en variantie $\sigma^2$ staan beschreven in secties 3.2 en 3.7, resp. Hoe moeten deze formules aangepast worden om $\mu$ en  $\sigma^2$ te berekenen wanneer we te maken hebben met een frequentietabel? Doe dit voor de data in tabel 3.3. 
+
+## oplossing
+
+orginele formules:
+
+$\mu = 1(/2) * \sum_i^n x_i$
+
+$\sigma^2$ = de som van alle verschillen met het gemiddelde gedeeld door het aantal voorkomens
+
+_zie cursus blad 2_
+
+**oplossing chamilo:**
+
+de mogelijke scores
+```{r}
+x <- 0:10
+x
+```
+
+het aantal voorkomens van elke score:
+```{r}
+f_x <- c(2,1,2,0,2,4,9,11,13,8,8)
+f_x
+```
+
+gemiddelde:
+```{r}
+m <- sum(x*f_x)/sum(f_x)
+m
+```
+
+```{r}
+v <- sum(f_x * (x - m) ^ 2) / sum(f_x)
+v
+```
+
+standaardafwijking:
+```{r}
+stdev <- sqrt(v)
+stdev
+```
+# oefening 3.5
+## we gaan na als volgende formules een goed alternatief zijn voor die van de variantie
+
+* $\sum_i^n(x_i - \mu)$
+* $\sum_i^n \mid (x_i - \mu) \mid$
+* $\sum_i^n (x_i - \mu)^2$
+
+### allocatie van de sets
+```{r }
+x <- c(4,4,-4,-4)
+y <- c(7,1,-6,-2)
+```
+
+### formule 1
+```{r }
+meanX <- mean(x)
+meanY <- mean(y)
+
+var_1x <- x - meanX
+var_1y <- y - meanY
+var_1x
+var_1y
+
+som_1x <- 1/length(x) * sum(var_1x)
+som_1y <- 1/length(y) * sum(var_1y)
+
+plot(x,type="h", col='red', lwd=3)
+plot(y,type="h", col='red', lwd=3)
+
+
+```
+
+#### Conclusie
+
+we zien dat voor beide datasets een zelfde waarde bepaald wordt, alhowel de grafieken duidelijk een andere spreiding vertonen . Laten we eens onderzoeken of we it kunnen oplossen door de absolute waarde te gaan bepael van de sommatie
+
+
+### formule 2
+
+```{r }
+var_2x <- abs(x - meanX)
+var_2x
+var_2y <- abs(y - meanY)
+var_2y
+
+sum_2x <- 1/length(x) * sum(var_2x)
+sum_2y <- 1/length(y) * sum(var_2y)
+
+sum_2x
+sum_2y
+```
+#### conclusie
+Het probleem hierbij dat we voor beide datasets, hoewel dzez duidelijk visueel een verschillende spreiding hebben, dezelfde waarde bepaald wordt. Blijkbaar
+worden kleine waarden evenwaardig beschouwd als grote waarden (deviaties). Dit wordt natuurlijk opgelost door kwadraat te nemen
+
+###formule 3
+```{r }
+var_3x <- var(x)
+var_3y <- var(y)
+
+var_3x
+var_3y
+
+```
+
+
+# oefening 3.6.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Zoek eens zelfstandig op wat de variatiecoëfficient is, Hoe wordt die gedefinieed voor een volledige populatie en wat zou je ermee kunnen doen.
+
+## oplossing
+
+*wat*: Het is een relatieve spreidingsmaat. De spreiding wordt gemeten ten opzichte van het gemiddelde.
+
+*variatiecoëfficient voor de populatie*:
+$C_v = \frac{\sigma}{|\mu|}$
+
+*variatiecoëfficient voor de populatie*
+$C_v = \frac{\sigma}{\bar{a}}$
+
+De variatiecoëfficient kan gebruikt worden om eenvoudig standaardafijkingen van datasets met elkaar te vergelijken.
+
+
+
+
+# oefening 3.7.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Beschouw de volgende datasets uit het data frame "ais" (uit de library DAAG)
+
+1. Ontleed de gegevens voor de roeiers
+2. ontleed de gegevens voor de roeiers, netballers en de tennissers
+3. ontleed de gegeven svoor de vrouwelijke besketballers en roeiers
+
+## oplossing
+
+0. installeren van de benodigde packages
+
+```{r}
+#install.packages("DAAG")
+#install.packages("latice")
+```
+
+1. Ontleed de gegevens voor de roeiers.
+
+```{r}
+roeiers <- subset(DAAG::ais,sport=="Row")
+roeiers
+
+myvars <- c("ht")
+newdata <- roeiers[myvars]
+summary(newdata)
+```
+
+2. ontleed de gegevens van de roeiers, de netballers en de tennisseres
+
+```{r}
+roeinetball <- subset(DAAG::ais,sport=="Row" | sport=="Netball" | sport=="Tennis")
+roeinetball
+
+myvars <- c("ht")  
+newdata <- roeinetball[myvars]
+summary(newdata)
+```
+
+3. ontleed de gegevens voor de vrouwelijke basketballers en roeiers
+
+```{r}
+vrouwen <- DAAG::ais[DAAG::ais$sex == 'f' & (DAAG::ais$sport == 'B_Ball' | DAAG::ais$sport == 'Row'),]
+    vrouwen$sex <- factor(vrouwen$sex)
+    vrouwen$sport <- factor(vrouwen$sport)
+    vrouwen
+```
+
+# oefening 3.8.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Gebruik de functies mean en range om het gemiddelde en bereik van:
+
+1. de cijfers 1, 2, . . . , 21
+2. 50 willekeurige normale waarden, die worden gegenereerd vanuit een normale distributie
+met gemiddelde 0 en variantie 1 (functie rnorm)
+3. de kolommen height en weight in de data frame women (standaard in R).
+
+
+## oplossing
+
+### deel 1
+
+```{r}
+lijst <- c(1:21)
+lijst 
+
+mean(lijst)
+range(lijst)
+```
+
+### deel 2
+
+```{r}
+randomLijst <- rnorm(n = 50, mean = 0, sd = sqrt(1))
+
+randomLijst
+
+mean(randomLijst)
+sd(randomLijst)
+```
+
+
+### deel 3
+
+```{r}
+women # is een tabel die standaard in R zit.
+```
+
+```{r}
+mean(women$height)
+median(women$height)
+## r heeft geen functie voor modus
+range(women$height)
+quantile(women$height)
+sd(women$height)
+```
+
+```{r}
+
+mean(women$weight)
+median(women$weight)
+## r heeft geen functie voor modus
+range(women$weight)
+quantile(women$weight )
+sd(women$weight)
+```
+
+# oefening 3.9
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Open de file met excel en bekijk de structuur van het document. Hoe ziet die er
+uit? Kan je de variabelen identificeren en hun type benoemen
+
+## oplossing
+
+```{r}
+android_cpu <- read.csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/oefeningen/data/hfst3_1variabele/android_persistence_cpu.csv", sep=";", dec=",")
+
+attach(android_cpu)
+
+#android_cpu
+
+typeof(Tijd)
+typeof(PersistentieType)
+typeof(Datahoeveelheid)
+
+```
+
+variabelen zijn
+
+* tijd
+* persistentietype
+* datahoeveelheids
+
+```{r}
+summary(android_cpu)
+
+sd(android_cpu$Tijd)
+mean(android_cpu$Tijd)
+```
+
+
+# Oefening 3.10.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Als je de vorige metrieken berekend hebt, wat kan je daar dan over zeggen. Kan je zinnige conclusies trekken uit de vorige resultaten. Zo ja vermeld ze, zo nee beschrijf waarom je dat denkt. 
+
+## oplossing
+
+
+Ik denk niet dat je uit vorige data conclussies kan trekken omdat je niet weet over welkk PU ze praten.
+je weet bv. niet bij welke PU het minimum van 1.090 werd bereikt.
+
+Je kan wel afleiden dat er wel degelijk veel tijdverschil was tussen de de PU's maar dit kan natuurlijk ook een gevolg zijn van de data hoeveelheid. Maar deze relaties kan je dus niet afleiden uit deze data.
+
+**Oplossing Chammillo:**
+
+Enkel gegevens over de tijd zijn zichtbaar maar niet per categorie. Zinnige conclusies trekken is dus niet evident.
+
+# oefening 3.11.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Een histogram is een eenvoudige plot. het toont de frequenties van de data die in een bepaald bereik
+voorkomen.
+
+```{r}
+hist(android_cpu$Tijd, main = "verdeing van de tijd", xlab = "De gemeten cpu tijd");
+#default "break" = 10
+
+hist(android_cpu$Tijd, main = "verdeing van de tijd", xlab = "De gemeten cpu tijd", breaks = 1);
+
+hist(android_cpu$Tijd, main = "verdeing van de tijd", xlab = "De gemeten cpu tijd", breaks = 20);
+
+```
+
+Wat concludeer je als je bovenstaande grafieka genereert? Is dit een zinnig
+resultaat? Wat gebeurt er als je de variabele breaks verhoogt? 
+
+## oplossing
+
+### nuttig?
+Het is niet zo nuttig om te weten hoe vaak een bepaalde uitkomst voorkomt
+Het lijkt mij interessanter om te zien wat de gemiddelde cpu tijd per persistence unit is
+
+### breaks
+
+de "breaks" variabele steltin in hoeveel categoriëren de dataset gesplitst wordt. 
+default is deze waarde 10.
+
+
+**oplossing chamilo:**
+De voorkomens van per cpu tijd zijn zichtbaar. Je kan afleiden dat er 1 groot interval is en deze dus de mean kan beïnvloeden. De categorieën zijn echter niet zichtbaar dus er is niet veel nut aan de grafiek  Op de x as zijn de intervallen vergroot.
+
+
+# Oefening 3.12.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## Opgave
+
+De boxplot wordt standaard verticaal getekend
+
+```{r}
+boxplot(android_cpu$Tijd, main="spreiding van de CPU tijd", ylab ="tijd in ms")
+```
+## Oplossing
+
+**oplossing chamilo:**
+
+
+
+
+# Oefening 3.13.
+_(oefening zelf gemaakt, geen oplossing)_
+
+## Opgave
+
+Als je goed geantwoord hebt op de volgende vragen merk je natuurlijk dat het weinig zin heeft de
+volledige dataset te analyseren, aangezien de dataset verdeeld is over verschillende categorieën. We
+willen dus wel deze statistieken weten, maar per categorie. We kunnen dus een boxplot maken voor elke categorie
+
+```{r}
+boxplot(android_cpu$Tijd~android_cpu$Datahoeveelheid, main = "spreiding van de cpu tijd t.o.v. datahoeveelheid", xlab = "Tijd in miliseconden",ylab = "datahoeveelheid", horizontal = TRUE)
+```
+
+Interpreteer de resultaten die je behaalt uit deze grafiek. Zijn deze al wat zinniger?
+
+## Oplossing
+
+Nee niet echt, Het is logisch dat bij een grote datahoeveelheid de tijd in miliseconden groter zal zijn
+
+Het is wel opvallend dat de spreiding bij medium grote datahoeveelheden heel groot is.
+We weten natuurlijk niet wat de intervallen zijn die "medium" definieeren. Als dit interval breder is dan bij "klein" en "groot" is deze observatie logisch
+
+**oplossing chamilo:**
+
+Er is een duidelijker overzicht met uitschieters van de datahoeveelheid. De volledige data is echter nog niet weergegeven.
+
+# oefening 3.14
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+```{r}
+boxplot(android_cpu$Tijd~android_cpu$PersistentieType, main = "spreiding van de cpu tijd t.o.v. persistentieunit", xlab = "Tijd in miliseconden",ylab = "PU", horizontal = TRUE)
+```
+
+Zijn deze resultaten zinniger?
+
+## oplossing
+
+Nee niet echt
+
+
+
+# oefening 15
+
+We moeten de data dus onderverdelen in categorieën namelijk onder PersistentieType en
+Datahoeveelheid. We gaan hiervoor de functie which1 gebruiken en kijken hoe de verschillende
+datahoeveelheden verschillen per datahoeveelheidcategorie.
+
+```{r}
+greenDOA <- android_cpu[which(android_cpu$PersistentieType=='GreenDAO'),];
+
+boxplot(greenDOA$Tijd~greenDOA$Datahoeveelheid)
+```
+
+wat conludeer je
+
+
+## oplossing
+
+dat deze persistence unit recht evenredig werkt in functie van de datahoeveelheid. (zoals verwahct)
+
+Bij medium is de spreiding wel opvallend hoog.
+
+
+
+
+
+
+
+
+
+# voorbeelden
+blz 38 
+
+## bewerkingen op een vector
+
+```{r}
+a <- c(1,2,3,4)
+a
+```
+
+```{r}
+a <- a + 5 
+a
+```
+```{r}
+a <- a * 3
+a
+```
+
+```{r}
+b <- a -15
+b
+```
+
+```{r}
+# wortel 
+sqrt(a)
+```
+
+
+
+## analyses op 1 variabele
+```{r}
+#inlezen csv
+computers <- read.csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/cursus/data/computers.csv")
+
+# vermijden dat er steeds computers$ moet getypt worden
+attach(computers)
+```
+
+```{r}
+#gemiddelde
+mean(price)
+```
+
+```{r}
+#mediaan
+median(price)
+```
+
+```{r}
+#kwartielen
+quantile(price)
+```
+
+```{r}
+#minimum
+min(price)
+
+#maximum
+max(price)
+```
+
+```{r}
+#variantie
+var(price)
+
+#standaardafwijking 
+sd(price)
+```
+
+
+```{r}
+## alles
+
+summary(computers)
+```

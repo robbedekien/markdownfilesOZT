@@ -1,0 +1,47 @@
+---
+title: "Oefeningen hoofdstuk 2 - het onderzoeksproces"
+author: "Tijs Martens"
+date: "6 maart 2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# oefening 2.2. 
+
+**nominaal**: 
+welke hobby's doe je?
+
+* gamen
+* sport
+* andere
+
+
+**ordinaal**:
+hoe goed ging je examen?
+
+* 1
+* 2 
+* 3 
+* 4 
+* 5
+
+**intervalniveau**:
+Hoeveel graden is het?
+
+**rationiveau**:
+Wat was je score op de test?
+
+
+# oefening 2.3.
+
+niet relevant??
+
+
+# oefening 2.4. 
+
+niet relevant??
