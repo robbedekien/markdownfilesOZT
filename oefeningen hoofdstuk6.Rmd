@@ -2,7 +2,9 @@
 title: "oefeningen hoofdstuk 6 - Analyse op 2 Variabelen"
 author: "TijsMartens"
 date: "12 april 2019"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -29,9 +31,10 @@ margin.table(waarderingen, 2) # kolomtotalen
 margin.table(waarderingen) # aantal waarnemingen (n)
 ```
 
-percentages van rijen berekene
+percentages van rijen berekenen
 ```{r}
 waarderingen_pct <- prop.table(waarderingen, 2)
+waarderingen_pct
 ```
 
 berekenen chi-kwadraat
@@ -55,7 +58,22 @@ berekenen van Cramér's V
 ```{r}
 k <- min(nrow(waarderingen), ncol(waarderingen))
 V <- sqrt(chi_sq/margin.table((waarderingen) * (k-1)))
+
+k
+V
+
 ```
+
+
+bekomen resultaten
+```{r}
+t(waarderingen)
+
+waarderingen
+
+waarderingen_pct
+```
+
 
 maken tabel
 ```{r}
@@ -71,6 +89,37 @@ maken van percentage chart
 ```{r}
 barplot(waarderingen_pct, horiz = TRUE)
 ```
+
+
+# voorbeeld 6.4. 
+
+voorbeelde van een regressierechte
+
+```{r}
+
+
+data <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\cursus\\data\\santa.txt", sep=";", dec=",")
+
+attach(data)
+data
+```
+
+code is juist om regressierechte te tekenen. Maar hij kent kolom "x" en "y" smh niet
+```{r}
+#x = eiwitgehalte
+#y = gewichttoename
+
+#plot(x, y, main = 'gewichttoename', xlab = 'eiwitgehalte', ylab = 'gewichtstoename')
+
+##regressie berekenen
+
+#regr <- lm(y ~ x)
+#regr
+
+#abline(regr, col="red")
+```
+
+
 
 # oefening 6.1.
 
@@ -95,13 +144,14 @@ inlezezen csv bestand
 ```{r}
 
 
-data <- read.csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/oefeningen/data/hfst6_2variabelen/MuziekWijn.csv")
+data <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\MuziekWijn.csv")
 
 data
 ```
 
 ## 1.
 
+opstellen van de frequentietabel
 ```{r}
 kruistabel <-table(data)
 kruistabel
@@ -109,6 +159,7 @@ kruistabel
 
 ## 2.
 
+bepalen van de marginalen
 ```{r}
 margin.table(kruistabel, 1)
 margin.table(kruistabel, 2)
@@ -117,18 +168,59 @@ prop.table(kruistabel)
 
 ## 3. 
 
-```{r}
-#library(gmodels)
-#library(lsr)
+bepalen van de verwachte waarden
 
-#crosstable(kruistabel)
+```{r}
+library(gmodels)
+library(lsr)
+
+CrossTable(kruistabel)
 ```
 
 ## 4. 
+bereken manueel de chi kwadraat
+
+met r:
 ```{r}
-#cramersV(kruistabel)
+cramersV(kruistabel)
 ```
 
+manueel:
+
+$\sum \frac{(a - e)^2}{e}$
+
+a = geobserveerde waarde
+e = verwachte waarde 
+
+* verwachte waarde berekenen 
+
+$e = (\frac{rijtotaal}{n} \times \frac{kolomtotaal}{n} \times n)$
+$e = \frac{rijtotaal \times kolomtotaal}{n}$
+```{r}
+kruistabel
+
+aantalKol <- ncol(kruistabel)
+aantalKol
+
+aantalRij <- nrow(kruistabel)
+aantalRij
+
+n <- nrow(data)
+n
+
+e = (aantalKol * aantalRij) / n
+e
+```
+
+* chi kwadraat berekenen
+
+$\sum \frac{(a - e)^2}{e}$
+
+
+
+
+
+## 5. 
 
 ```{r}
 chisq.test(kruistabel)
@@ -148,14 +240,44 @@ _(oefening zelf gemaakt, geen oplossing)_
 
 Gebruik dezelfde data.
 
-1. Stel de percentages verkochte wijnen voor in een staafdiagram met de muziekconditie= Geen. 2.
-Stel de percentages verkochte wijnen voor in een geclusterd staafdiagram (clustered bar chart). 
+1. Stel de percentages verkochte wijnen voor in een staafdiagram met de muziekconditie= Geen. 
+2. Stel de percentages verkochte wijnen voor in een geclusterd staafdiagram (clustered bar chart). 
 3. Stel de percentages verkochte wijnen voor in rependiagram (stacked bar chart)
 ## oplossing
 
 library(vcd)
-
 assocstats(data)
+
+```{r}
+
+data <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\MuziekWijn.csv")
+
+data
+
+```
+
+### 1. staafdiagram
+```{r}
+tabel <- table(data$Muziek)
+tabel
+
+barplot(tabel)
+```
+
+
+### 2. geclusterde staafdiagram
+```{r}
+tabel <- table(data)
+barplot(tabel, beside = TRUE)
+
+```
+
+### 3. rependiagram - stacked bar chart
+```{r}
+tabel <- table(data)
+barplot(tabel)
+
+```
 
 # oefening 6.3.
 
@@ -171,7 +293,66 @@ Lees het databestand "Aardbevingen.csv" in.
 
 ## oplossing
 
-/
+inlezen data
+```{r}
+aardbevingen <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Aardbevingen.csv")
+
+View(aardbevingen)
+```
+
+### histogram van "magnitudes"
+
+```{r}
+hist(aardbevingen$Magnitude)
+```
+
+### boxplot van magnitudes
+
+```{r}
+boxplot(aardbevingen$Magnitude, horizontal = TRUE)
+```
+
+### lijngrafiek aardbevingen per maand
+```{r}
+typeof(aardbevingen$Date)
+
+# omzetten integer naar data
+
+aardbevingen$Date <- as.Date(aardbevingen$Date,"%Y/%m/%d")
+
+typeof(aardbevingen$Date)
+
+str(aardbevingen)
+
+aardbevingen$month <- as.Date(cut(aardbevingen$Date, breaks = "month"))
+
+
+#?????????????????????????? 
+
+
+```
+ 
+
+### onderzoek als er een verband is tussen "type" en "source"
+
+*hypothese*
+h0 - er is geen verband
+h1 -  er is wel een verband
+
+*cramèrs v*
+```{r}
+cramersV(aardbevingen$Type, aardbevingen$Source)
+```
+de cramèrs V is 0.067
+
+een cramèrs v van 0 wil zeggen dat er geen verband is tussen da veriabelen
+een cramèrs v van 1 wil zeggen dat er een perfect vand is tussen de variaelen
+
+In dit geval kunnen we dus stellen dat er geen verband is tussen het type en de oorzaak.
+We kunnne de nulhypothese dan ook NIET verwerpen
+
+
+
 
 # oefening 6.4.
 
@@ -209,7 +390,7 @@ beta0 <- my - beta1 * mx
 plot(x, y)
 
 regr <- lm(y~ x)
-abline(regr)
+abline(regr, col="red")
 
 ```
 
@@ -220,7 +401,7 @@ hoe dichter de punten bij de lijn ligt hoe beter het verband
 
 ## 4. bepaal handmatig r en r kwadraat
 
-bepale r
+bepalen r
 ```{r}
 cov(x = x, y = y)
 ```
@@ -236,7 +417,7 @@ in het kwadraat
 = +- 81% 81% van het gemiddelde wordt betpaald door ??????????????? de rest door toeval
 
 # oefening 6.5.
-
+/
 
 _(oefening zelf gemaakt, geen oplossing)_
 
@@ -245,6 +426,41 @@ _(oefening zelf gemaakt, geen oplossing)_
 Gegeven 6 scatterplots in volgende ???guur en onderstaande correlatiecoëf???ciënten. Match de coëf???ciënten met de scatterplots. Er is dus één scatterplot waarvan geen correlatie gegeven staat hieronder.
 
 ## oplossing
+
+als r
+
+* = 0 ==> geen verband te zien
+* = 1 ==> stijgend verband
+* = -1 ==> dalend verband
+
+r1 = E
+
+* 0.6
+* de algemene trend van de waarden is stijgend, r moet dus groter zijn dan 0
+* liggen niet heel dicht gegroepeerd, r dus ook nie "dicht" bij 1
+
+r2 = D
+
+* 0
+* 0 betekend dat er geen relatie is, de waarden van grafiek D liggen random door elkaar
+
+r3 = C
+
+* -0.9
+* negatieve waarde = dalend verband
+* dicht bij -1 dus de waarden moeten dicht bij elkaar liggen
+
+r4 = A
+
+* 0.9
+* positieve waarde = stijgend verband
+* dicht bij 1 dus de waarden moeten dicht bij elkaar liggen
+
+r5 = F
+
+* 0.3
+* waarde dicht bij 0, er is dus geen duidelijk verband
+* in grafiek F liggen de waarden ver uit elkaar en zij ze op het eerste zicht "onvoorspelbaar". Het valt wel op dat er een algemene stijgende trend is. Dit komt overeen met de 0.3
 
 # oefening 6.6.
 
@@ -261,12 +477,68 @@ Lees het databestand "Cats.csv" in.
 
 
 ## oplossing
+bestand inladen
+```{r}
+cats <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Cats.csv")
+View(cats)
+```
 
-/
+### 1. lineaire regressie 
+```{r}
+afhankelijk <- cats$Bwt
+onafhankelijk <- cats$Hwt
+
+regr <- lm(onafhankelijk ~ afhankelijk)
+regr
+
+```
+
+### 2. spreidingsdiagram
+
+```{r}
+plot(afhankelijk, onafhankelijk)
+```
+
+### 3. regressierechte
+```{r}
+plot(afhankelijk, onafhankelijk)
+
+abline(regr, col="red")
+```
+
+### 4. correlatie en determinantcoëfficient
+
+*manueel:*
+```{r}
+covarantie<-cov(onafhankelijk, afhankelijk)
+covarantie
+
+r = covarantie / (sd(onafhankelijk) * sd(afhankelijk))
+correlatie <- r
+correlatie
+
+determinantcoefficient <- r*r
+determinantcoefficient
+
+```
+
+*met r:*
+```{r}
+co <- cor(onafhankelijk,afhankelijk, method = 'pearson') 
+co
+
+determinantcoefficient <-co * co
+determinantcoefficient
+```
+
+### 5. interpretatie
+
+er is een correlatie van 0.80. Dit duidt op een start stijgend verband.
+
+de spreiding rond de regressierechte is vrij groot
 
 # oefening 6.7.
 
-_(oefening zelf gemaakt, geen oplossing)_
 
 ## opgave
 
@@ -279,8 +551,87 @@ _(oefening zelf gemaakt, geen oplossing)_
 
 ## oplossing
 
+bestand inladen
+```{r}
+cats <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Cats.csv")
+View(cats)
+```
+
+### 1. regressie
+```{r}
+maleCats <- subset(cats, cats$Sex=="M")
+femaleCats <- subset(cats, cats$Sex=="F")
+
+#hangt gewicht van een hart of van het lichaamsgewicht?
+maleAfhankelijk <- maleCats$Bwt
+maleOnafhankelijk <- maleCats$Hwt
+
+maleRegressie <- lm(maleOnafhankelijk ~ maleAfhankelijk)
+maleRegressie
+
+femaleAfhankelijk <- femaleCats$Bwt
+femaleOnafhankelijk <- femaleCats$Hwt
+
+femaleRegressie <- lm(femaleOnafhankelijk ~ femaleAfhankelijk)
+femaleRegressie
+
+```
+
+### 2. spreiding
+
+male: 
+```{r}
+plot(maleAfhankelijk, maleOnafhankelijk)
+```
+female
+```{r}
+plot(femaleAfhankelijk, femaleOnafhankelijk)
+```
 
 
+### 3. regressierechte
+
+male:
+```{r}
+plot(maleAfhankelijk, maleOnafhankelijk)
+abline(maleRegressie, col = "red")
+```
+
+female:
+```{r}
+plot(femaleAfhankelijk, femaleOnafhankelijk)
+abline(femaleRegressie, col = "red")
+```
+
+### 4. correlatie en determinantcoefficient
+
+male
+```{r}
+maleCo <- cor(maleOnafhankelijk,maleAfhankelijk, method = 'pearson') 
+maleCo
+
+maleDeterminantcoefficient <-maleCo * maleCo
+maleDeterminantcoefficient
+```
+
+female
+```{r}
+femaleCo <- cor(femaleOnafhankelijk,femaleAfhankelijk, method = 'pearson') 
+femaleCo
+
+femaleDeterminantcoefficient <-femaleCo * femaleCo
+femaleDeterminantcoefficient
+```
+
+### 5. interpretatie
+
+male
+ 
+* sterk sijgend lineair verband 
+
+female
+
+* zwak stijgend lineair verband
 
 # oefening 6.8.
 
@@ -298,4 +649,27 @@ _(oefening zelf gemaakt, geen oplossing)_
 
 ## oplossing
 
-/
+inlezen data
+
+```{r}
+pizzas <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Pizza.csv")
+View(pizzas)
+```
+
+### 1. regressie
+
+```{r}
+plot(pizzas$Rating, pizzas$CostPerSlice)
+
+regr <- lm(pizzas$CostPerSlice ~ pizzas$Rating)
+abline(regr, col='red')
+
+regr
+```
+
+er is weinig samenhang
+
+### 2. relatie tussen rating en neigbourhood
+
+
+
