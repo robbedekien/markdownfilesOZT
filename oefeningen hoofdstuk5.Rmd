@@ -3,6 +3,7 @@ title: "Oefeningen hoofdstuk 5 - Toetsingsprocedures"
 author: "TijsMartens"
 date: "3 april 2019"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -137,7 +138,7 @@ Dit heeft als gevolg dat we h0 mogen verwerpen
 ## oplossing van kritiek gebied
 formule om g te berekenen (grenswaarde)
 
-$g = \mu + z *\frac{\sigma}{\sqrt{n}} $
+$g = \mu + z *\frac{\sigma}{\sqrt{n}}$
 
 ```{r}
 # qnorm = onder welk grens zal p% van de waarnemingen liggen
@@ -158,7 +159,7 @@ if (test > g) {
 ons testgeval (waarde: 46.2) is groter dan onze grenswaarde (45.43). Omdat dit het geval is mogen we h0 verwerpen
 
 
-## geef een interpretatie van wat \alpha = 2.5% betekend.
+## geef een interpretatie van wat alpha = 2.5% betekend.
 
 De alpha waarde bepaald hoe 'streng' we zullen testen. bij een alpha van 2.5% zullen 97.5% van de steekproefgemiddelden zicht in het aanvaardbaar gebied bevinden. 
 
