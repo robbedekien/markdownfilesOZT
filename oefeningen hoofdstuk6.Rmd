@@ -1,6 +1,6 @@
 ---
 title: "oefeningen hoofdstuk 6 - Analyse op 2 Variabelen"
-author: "TijsMartens"
+author: "Tijs Martens"
 date: "12 april 2019"
 output:
   pdf_document: default
