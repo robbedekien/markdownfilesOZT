@@ -60,6 +60,10 @@ oplossing:
 
 1.
 
+$g_{boven} = \mu + z \times \frac{\sigma}{\sqrt{n}}$
+
+$g_{onder} = \mu - z \times \frac{\sigma}{\sqrt{n}}$
+
 betrouwbaarheisinterval = 99%
 => alpha = 1%
 => er is een tweezijdige toets, de alpha moet in de berekeningen dus gedeeld worden door 2
@@ -116,10 +120,10 @@ _(oplossing vanuit de les)_
 ```{r}
 alpha <- 0.025 
 sigma <- 6.2
-mean = 44
-test = 46.2
+populatiegemiddelde = 44
+steekproefgemiddelde = 46.2
 n <- 72
-p <- 1 - pnorm(test, mean, sd = sigma/sqrt(n))
+p <- 1 - pnorm(steekproefgemiddelde, mean = populatiegemiddelde, sd = sigma/sqrt(n))
 p
 
 
@@ -143,11 +147,11 @@ $g = \mu + z *\frac{\sigma}{\sqrt{n}}$
 ```{r}
 # qnorm = onder welk grens zal p% van de waarnemingen liggen
 
-g <- qnorm(1 - alpha, mean, sd = sigma/sqrt(n))
+g <- qnorm(1 - alpha, populatiegemiddelde, sd = sigma/sqrt(n))
 g
-test
+steekproefgemiddelde
 
-if (test > g) {
+if (steekproefgemiddelde > g) {
   print("we mogen H0 verwerpen")
 }else
 {
@@ -157,6 +161,28 @@ if (test > g) {
 
 
 ons testgeval (waarde: 46.2) is groter dan onze grenswaarde (45.43). Omdat dit het geval is mogen we h0 verwerpen
+
+**zelfde maar "manueel"**
+```{r}
+populatiegemiddelde <- 44
+populatiestandaardafwijking <- 6.2
+
+n <- 72
+steekproefgemiddelde <- 46.2
+
+# omdat we met een grote steekproef zitten (groter dan 30) mogen we de populatiestandaardafwijking als steekproefstandaardafwijking nemen
+steekproefstandaardafwijking <- populatiestandaardafwijking
+
+
+grenswaarde <- populatiegemiddelde + qnorm(0.975) * (populatiestandaardafwijking / sqrt(n))
+
+grenswaarde
+steekproefgemiddelde
+
+```
+
+de grenswaarde is 45.43 en ons steekproefgemiddelde is 46.2
+dit is groter dan de grenswaarde. we mogen h0 dus verwerpen
 
 
 ## geef een interpretatie van wat alpha = 2.5% betekend.
@@ -185,7 +211,7 @@ test <- 46.2
 ## 1.
 
 ```{r}
-overschreidingswaardeG <-  qnorm(1-alpha, mean, sd = sigma/sqrt(n))
+overschreidingswaardeG <-  qnorm(1-alpha, populatiegemiddelde, sd = sigma/sqrt(n))
 
 overschreidingswaardeG
 test
@@ -196,7 +222,7 @@ de te testen waarde is groter dan de kritieke grenswaarde. Het gemiddelde is dus
 ## 2. 
 
 ```{r}
-p <- 1 -  pnorm(test, mean, sd = sigma/sqrt(n))
+p <- 1 -  pnorm(test, populatiegemiddelde, sd = sigma/sqrt(n))
 p
 alpha
 ```
