@@ -3,9 +3,9 @@ title: "oefeningen hoofdstuk 7 - De XÃ,Â² kwadraat toets"
 author: "TijsMartens"
 date: "12 april 2019"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -287,7 +287,23 @@ geen representatieve steekproef aangezien dat chi² groter is dan de grenswaarde
 
 ### deel 2
 
-wat is dit???
+gestandaardiseerde residuen duiden aan welke klassen de grootste bijdragen leven aan de waarde van de grootheid
+
+algemene regel: waarden groter dan 2 of kleiner dan -2 zijn "extreem"
+
+
+formule: 
+$r_i =  \frac{O_i - n\pi_i}{\sqrt{n\pi(1-pi_i)}}$
+
+
+
+voorstelling door grafiek
+
+
+```{r}
+data <- chisq.test(sex, T.categ)
+data$stdres
+```
 
 
 # oefening 7.4. 

@@ -450,7 +450,22 @@ grens</code></pre>
 </div>
 <div id="deel-2" class="section level3">
 <h3>deel 2</h3>
-<p>wat is dit???</p>
+<p>gestandaardiseerde residuen duiden aan welke klassen de grootste bijdragen leven aan de waarde van de grootheid</p>
+<p>algemene regel: waarden groter dan 2 of kleiner dan -2 zijn “extreem”</p>
+<p>formule: <span class="math inline">\(r_i = \frac{O_i - n\pi_i}{\sqrt{n\pi(1-pi_i)}}\)</span></p>
+<p>voorstelling door grafiek</p>
+<pre class="r"><code>data &lt;- chisq.test(sex, T.categ)</code></pre>
+<pre><code>## Warning in chisq.test(sex, T.categ): Chi-squared approximation may be
+## incorrect</code></pre>
+<pre class="r"><code>data$stdres</code></pre>
+<pre><code>##    T.categ
+## sex         hs       hsid         id        het       haem      blood
+##   F -24.160129  -1.545075  15.462745  16.907792  -1.229233  20.513873
+##   M  24.160129   1.545075 -15.462745 -16.907792   1.229233 -20.513873
+##    T.categ
+## sex     mother      other
+##   F   8.216321   3.341856
+##   M  -8.216321  -3.341856</code></pre>
 </div>
 </div>
 </div>
