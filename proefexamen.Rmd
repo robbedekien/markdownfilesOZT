@@ -1,7 +1,6 @@
 ---
-title: 'oefeningen hoofdstuk 8 - tijdsreeksen '
-author: "TijsMartens"
-date: "12 april 2019"
+title: 'Proefexamen '
+author: "Tijs Martens"
 output:
   html_document:
     df_print: paged
@@ -43,16 +42,119 @@ antwoord:
 
 #----------------------------------------- Input Gegevens ---------------------------------------------
 
-data =  rnorm(113, 80.08, 12.13)
-
-steekproefgemiddelde <- mean(data)
-standaardAfwijkingPopulatie <- 2.45 # Hier NIET de standaardafwijking van de steekproef invullen!!!
+steekproefgemiddelde <- 80.08
+standaardAfwijkingPopulatie <- 12.13 # Hier NIET de standaardafwijking van de steekproef invullen!!!
 n <- 113      # steekproefgrootte
 betrouwbaarheidsinterval = 0.95 # Hier het betrouwbaarheidsinterval invullen! Niet alpha (wordt berekend)
-
-
 ```
 
-oplossing
+antwoord: 
+
+* ondergrens = 77.843
+* bovengrens = 82.317
+
+
+
+
+## b
+
+```{r}
+# data in te geven in script  "betrouwbaarheidsinterval"
+
+steekproefgemiddelde <- 80.08
+standaardAfwijkingPopulatie <- 12.13 # Hier NIET de standaardafwijking van de steekproef invullen!!!
+n <- 113      # steekproefgrootte
+betrouwbaarheidsinterval = 0.99 # Hier het betrouwbaarheidsinterval invullen! Niet alpha (wordt berekend)
+```
+
+antwoord:
+
+* ondergrens: 77,140
+* bovengrens: 83,019 
+
+
+
+# vraag 3
+
+## a
+
+$h_0$: De motoren kunnen 300 minuten werken met 1 liter benzine
+
+$h_1$: de motoren kunnenn geen 300 minuten werken met 1 liter bezine
+
+## b
+```{r}
+#data in te geven in script "t-test"
+
+n = 50
+steekproefGem = 300
+standaardafwijking = 20  # van de steekproef!!! Dus s en niet σ !!!
+alpha = 0.05
+populatieGem =  295
+
+# alternatief gem. <> populatiegem  --> soort = '<>'
+soort = ''
+```
+
+## c
+
+we moeten $h_0$ verwerpen. want de grenswaarde is 295.26 en het steekproefgemiddelde is 295 en is dus te klein.
+
+We mogen dus niet zeggen dat de grasmachines 300 minuten kunnen werken met 1 liter benzine
+
+
+
+# vraag 4
+```{r}
+breakingBad <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\proefexamen\\breakingbad.csv")
+
+breakingBad
+```
+
+## a
+
+meetniveau:
+
+rationiveau
+
+(is kwalitatief en heeft een nulpunt)
+
+## b
+
+
+intervalniveau
+
+
+## a
+
+covariantie
+4.910656
+??????????
+
+
+## b
+
+correlatie
+0.5460384
+
+
+
+
+## c
+
+????
+
+
+## d
+
+????
+
+
+
+## vraag 4
+
+big oef
+wtf is dit
+
 
 

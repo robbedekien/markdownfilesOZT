@@ -3,6 +3,7 @@ title: "Onderzoekstechnieken"
 author: "TijsMartens"
 date: "6 april 2019"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
