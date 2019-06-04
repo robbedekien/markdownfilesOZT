@@ -202,16 +202,69 @@ mean(seizoen5rating) # gemiddelde
 
 ### a. Geef de hypothese indien we een hypothesetoets willen uitvoeren die het verband zoekt tussen de variabelen `goals` en `grade`
 
+```{r}
+kids <- read.csv("kids.csv")
+goals <- kids$Goals
+grade <- kids$Grade
+```
 
+*$H_0$: Er is geen verband tussen de graad van de student en het doel van de student.*
 
+*$H_1$: Er is een verband tussen de graad van de student en het doel van de student.*
 
 ### b. Voer de toets uit gebruik makende van de methode met kritieke grenswaarde evenals met de $p$-waarde (gebruik $\alpha = 0.01$).
 
+```{r}
+alpha <- 0.01
+
+model <- chisq.test(grade,goals)
+p <- model$p.value
+l <- model$parameter
+g <- qchisq(1-alpha,df=l)
+chisq <- model$statistic
+
+if(chisq > g){
+  print('H0 verwerpen! Er bestaat WEL een samenhang tussen de variabelen in de populatie.')
+  print(paste0('chi-kwadraat (',round(chisq,3),') > g-waarde (',round(g,3),')'))
+  print(paste0('p-waarde (',round(p,3),') < alpha (',alpha,')'))
+}else{
+  print('H0 niet verwerpen! Er bestaat GEEN samenhang tussen de variabelen in de populatie!')
+  print(paste0('Kritieke grenswaarde: ', 'chi-kwadraat (',round(chisq,3),') < g-waarde (',round(g,3),')'))
+  print(paste0('p-waarde: ', 'p-waarde (',round(p,3),') > alpha (',alpha,')'))
+}
+```
 
 ### c. Geef de naam van de metriek en de metriek zelf om de sterkte van dit verband uit te drukken.
 
+*Cramér's V*
 
+```{r, results='hold'}
+cv.test = function(x,y) {
+  CV = sqrt(chisq.test(x, y, correct=FALSE)$statistic /
+              (length(x) * (min(length(unique(x)),length(unique(y))) - 1)))
+  print.noquote("Cramér's V:")
+  return(as.numeric(CV))
+}
 
+cv <- cv.test(grade,goals)
+cv
+```
 
 ### d. Welke conclusie trek je hier uit?
 
+```{r, results='hold'}
+if(cv == 0)
+  print('Geen samenhang')
+if(0 < cv & cv <=0.1)
+  print('Geen samenhang ~ zwakke samengang')
+if(0.1 < cv & cv <=0.25)
+  print('zwakke samenhang ~ redelijke sterke samenhang')
+if(0.25 < cv & cv <=0.5)
+  print('redelijke sterke samenhang ~ sterke samenhang')
+if(0.5 < cv & cv <=0.75)
+  print('sterke samenhang ~ zeer sterke samenhang')
+if(0.75 < cv & cv < 1)
+  print('zeer sterke samenhang ~ volledige samenhang')
+if(cv == 1)
+  print('volledige samenhang')
+```
