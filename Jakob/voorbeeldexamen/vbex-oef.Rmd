@@ -31,6 +31,8 @@ q2 <- median(mtcars$mpg)
 q2
 q3 <- quantile(mtcars$mpg,0.75)
 q3
+# of
+summary(mtcars$mpg)
 ```
 
 # 2. Een steekproef van $113$ studenten levert een gemiddelde hartslag van $80,08$ slagen/minuut. Men weet dat de standaardafwijking $\sigma = 12,13$ slagen/minuut.
@@ -81,19 +83,33 @@ steekproefgem + z * sd / sqrt(n) # bovengrens
 
 ## a. Geef $H_0$ en $H_1$
 
-*$H_0$: *
+*$H_0$: De motoren kunnen 300 minuten werken met 1 liter benzine.*
 
-*$H_1$: *
+*$H_1$: De motoren kunnen geen 300 minuten werken met 1 liter benzine.*
 
 ## b. Voer de test uit
 
 ```{r}
+n = 50
+steekproefGem = 295
+standaardafwijking = 20
+alpha = 0.05
+populatieGem = 300
 
+p <- 1 - pt((steekproefGem - populatieGem) / (standaardafwijking/sqrt(n)), df = n-1)
+    
+if(p < alpha){
+  print("H0 verwerpen!")
+  print(paste0("p-waarde (",round(p, digits=3),") < significantieniveau (alpha)! (",alpha,")"))
+}else{
+  print("H0 niet verwerpen!")
+  print(paste0("p-waarde (",round(p, digits=3),") > significantieniveau (alpha)! (",alpha,")"))
+}
 ```
 
 ## c. Wat concludeer je?
 
-
+*We kunnen $H_0$ niet verwerpen.*
 
 # 4. Open het bestand `breakingbad.csv`. We vinden hierin informatie rond de ratings ingegeven in IMDB voor de serie breaking bad (echte gegevens). We zijn geïnteresseerd in de volgende variabelen:
 
@@ -101,33 +117,74 @@ steekproefgem + z * sd / sqrt(n) # bovengrens
 * **ID** Identificatie van een aflevering
 * **Season.episode** Seizoen identificatie gevolgd door de identificatie van het afleveringsnummer van dat seizoen
 
+```{r}
+breakingbad <- read.csv("breakingbad.csv")
+```
+
+
 ## a. Geef het meetniveau voor `UserRating`
 
+```{r}
+# Bekijken van data in kolom
+breakingbad$UserRating
+```
 
+*Rationiveau: intervalniveau met nulpunt, je kunt hierdoor verhoudingen bere- kenen tussen verschillende waarden op de schaal.*
 
 ## b. Geef het meetniveau voor `Season.episode`
 
+```{r}
+# Bekijken van data in kolom
+breakingbad$Season.episode
+```
 
+*Ordinaal meetniveau: een variabele die is ingedeeld in categorieën met logische volgorde.*
 
 We zijn geïnteresseerd of er een verband bestaat tussen de `ID` en `UserRating`.
 
 ## a. Geef het wiskundig verband indien we een lineair verband wensen te onderzoeken (niet afronden).
 
-
+```{r}
+# Co-variantie
+cov(breakingbad$ID, breakingbad$UserRating)
+```
 
 ## b. Geef de waarde van de metriek die de sterkte van dit verband geeft en interpreteer die.
 
+```{r}
+# correlatiecoëfficiënt
+cor(breakingbad$ID, breakingbad$UserRating)
+```
 
+*De Waarde is positief en dus kunnen we conluderen dat er een positief lineair verband is.*
 
 ## c. Geef de waarde van de maat die informatie geeft over de mate waarin het opgestelde model de werkelijke data benadert en interpreteer deze maat.
 
+```{r}
+# determinatiecoëfficiënt
+cor <- cor(breakingbad$ID, breakingbad$UserRating)
+cor^2
+```
 
+*Deze waarde verklaart het percentage van de variantie van de waargenomen waarden tegenover de regressierechte.*
 
 ## d. Geef de gemiddelde score voor seizoen 1 en seizoen 5 (`grepl` en reguliere expressies kunnen je hierbij helpen - niet vergeten af te ronden)
 
 Seizoen 1:
 
+```{r}
+seizoen1 <- grepl(x = breakingbad$Season.episode, pattern = "1\\.\\d{1,2}") # TRUE FALSE kolom
+seizoen1rating <- subset(breakingbad$UserRating, seizoen1 == TRUE) # selecteert enkel ratings uit seizoen 1
+mean(seizoen1rating) # gemiddelde
+```
+
 Seizoen 5:
+
+```{r}
+seizoen5 <- grepl(x = breakingbad$Season.episode, pattern = "5\\.\\d{1,2}") # TRUE FALSE kolom
+seizoen5rating <- subset(breakingbad$UserRating, seizoen5 == TRUE) # selecteert enkel ratings uit seizoen 1
+mean(seizoen5rating) # gemiddelde
+```
 
 # 5. Beschouw de studie gevoerd met als resultaat `kids.csv`. Er werd aan de kinderen gevraagd in verschillende schooldistricten wat ze belangrijk vinden. Ze gaven aan of dat goede punten, sportief zijn of populariteit het belangrijkste was voor hen. Ze moesten ook volgende elementen rangschikken: schoolresultaten, sport, uiterlijk en geld in de orde van belangrijkheid voor hen. Er werd ook gevraagd naar hun geslacht, hun graad en andere informatie. Volgende variabelen worden gedefinieerd:
 
