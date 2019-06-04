@@ -1,0 +1,174 @@
+---
+title: "Voorbeeldexamen oefeningen"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+> Academiejaar 2016-2017 - 1e examenperiode (juni 2017)
+>
+> Antwoorden staan *cursief* of zijn output van R.
+
+***
+
+# 1. Beschouw het dataframe `mtcars` dat standaard in R zit.
+
+## a. Geef het gemiddelde van de variabele `mpg` (3 cijfers afgerond)
+
+```{r}
+gemiddelde <- mean(mtcars$mpg)
+round(gemiddelde, digits = 3) # Afronden
+```
+
+## b. Geef $Q_1$, $Q_2$, $Q_3$
+
+```{r}
+q1 <- quantile(mtcars$mpg,0.25)
+q1
+q2 <- median(mtcars$mpg)
+q2
+q3 <- quantile(mtcars$mpg,0.75)
+q3
+# of
+summary(mtcars$mpg)
+```
+
+# 2. Een steekproef van $113$ studenten levert een gemiddelde hartslag van $80,08$ slagen/minuut. Men weet dat de standaardafwijking $\sigma = 12,13$ slagen/minuut.
+
+## a. Bereken het $95\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
+
+```{r}
+n <- 113
+steekproefgem <- 80.08
+sd <- 12.13
+nauwkeurigheid <- 0.95 # 95%
+
+alpha <- 1 - nauwkeurigheid
+
+# |ondergrens| en bovengrens voor grote steekproef (n > 30)
+z <- qnorm(1-alpha/2)
+z <- round(z, digits=3) # z-waarde afronden
+
+# berekenen van het betrouwbaarheidsinterval
+steekproefgem - z * sd / sqrt(n) # ondergrens
+steekproefgem + z * sd / sqrt(n) # bovengrens
+```
+
+*Ofwel via formule $\overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{pq}}{n}}$ met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1 - \overline{p}$.*
+
+## b. Bereken het $99\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
+
+```{r}
+n <- 113
+steekproefgem <- 80.08
+sd <- 12.13
+nauwkeurigheid <- 0.99 # 99% (!)
+
+alpha <- 1 - nauwkeurigheid
+
+# |ondergrens| en bovengrens voor grote steekproef (n > 30)
+z <- qnorm(1-alpha/2)
+z <- round(z, digits=3) # z-waarde afronden
+
+# berekenen van het betrouwbaarheidsinterval
+steekproefgem - z * sd / sqrt(n) # ondergrens
+steekproefgem + z * sd / sqrt(n) # bovengrens
+```
+
+*Ofwel via formule $\overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{pq}}{n}}$ met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1 - \overline{p}$.*
+
+# 3. Een uitvinder heeft een nieuwe, energie-efficiënte grasmaaimachine ontwikkeld. Hij beweert dat de motor gedurende 5 uur ($300$ minuten) voortdurend op een enkele liter gewone benzine loopt. Uit zijn voorraad van $2000$ motoren selecteert de uitvinder een aselecte steekproef van $50$ motoren. De motoren lopen gemiddeld $295$ minuten, met een standaardafwijking van $20$ minuten. Test de nulhypothese dat de gemiddelde looptijd $300$ minuten is tegen de alternatieve hypothese dat de gemiddelde looptijd geen $300$ minuten bedraagt. Gebruik $\alpha = 0,05$ en gebruik de methode met de $p$-waarde. (Veronderstel dat de looptijden van motoren normaal zijn verdeeld en rond tussentijdse resultaten af tot drie cijfers na de komma)
+
+## a. Geef $H_0$ en $H_1$
+
+*$H_0$: De motoren kunnen 300 minuten werken met 1 liter benzine.*
+
+*$H_1$: De motoren kunnen geen 300 minuten werken met 1 liter benzine.*
+
+## b. Voer de test uit
+
+```{r}
+n = 50
+steekproefGem = 295
+standaardafwijking = 20
+alpha = 0.05
+populatieGem = 300
+
+p <- 1 - pt((steekproefGem - populatieGem) / (standaardafwijking/sqrt(n)), df = n-1)
+    
+if(p < alpha){
+  print("H0 verwerpen!")
+  print(paste0("p-waarde (",round(p, digits=3),") < significantieniveau (alpha)! (",alpha,")"))
+}else{
+  print("H0 niet verwerpen!")
+  print(paste0("p-waarde (",round(p, digits=3),") > significantieniveau (alpha)! (",alpha,")"))
+}
+```
+
+## c. Wat concludeer je?
+
+*We kunnen $H_0$ niet verwerpen.*
+
+# 4. Open het bestand `breakingbad.csv`. We vinden hierin informatie rond de ratings ingegeven in IMDB voor de serie breaking bad (echte gegevens). We zijn geïnteresseerd in de volgende variabelen:
+
+* **UserRating** Gemiddelde user rating per aflevering
+* **ID** Identificatie van een aflevering
+* **Season.episode** Seizoen identificatie gevolgd door de identificatie van het afleveringsnummer van dat seizoen
+
+## a. Geef het meetniveau voor `UserRating`
+
+
+
+## b. Geef het meetniveau voor `Season.episode`
+
+
+
+We zijn geïnteresseerd of er een verband bestaat tussen de `ID` en `UserRating`.
+
+## a. Geef het wiskundig verband indien we een lineair verband wensen te onderzoeken (niet afronden).
+
+
+
+## b. Geef de waarde van de metriek die de sterkte van dit verband geeft en interpreteer die.
+
+
+
+## c. Geef de waarde van de maat die informatie geeft over de mate waarin het opgestelde model de werkelijke data benadert en interpreteer deze maat.
+
+
+
+## d. Geef de gemiddelde score voor seizoen 1 en seizoen 5 (`grepl` en reguliere expressies kunnen je hierbij helpen - niet vergeten af te ronden)
+
+Seizoen 1:
+
+Seizoen 5:
+
+# 5. Beschouw de studie gevoerd met als resultaat `kids.csv`. Er werd aan de kinderen gevraagd in verschillende schooldistricten wat ze belangrijk vinden. Ze gaven aan of dat goede punten, sportief zijn of populariteit het belangrijkste was voor hen. Ze moesten ook volgende elementen rangschikken: schoolresultaten, sport, uiterlijk en geld in de orde van belangrijkheid voor hen. Er werd ook gevraagd naar hun geslacht, hun graad en andere informatie. Volgende variabelen worden gedefinieerd:
+
+* **Gender**: Boy or girl
+* **Grade**: 4,5or6
+* **Age**: Age in years
+* **Race**: White, Other
+* **Urban/Rural**: Rural, Suburban, or Urban school district
+* **School**: Brentwood Elementary, Brentwood Middle, Ridge, Sand, Eureka, Brown, Main, Portage, Westdale Middle
+* **Goals**: Student’s choice in the personal goals question where options were 1 = Make Good Grades, 2 = Be Popular, 3 = Be Good in Sports
+* **Grades**: Rank of "make good grades"(1=most important for popularity, 4=least important) Sports : Rank of "being good at sports"(1=most important for popularity, 4=least important)
+* **Looks**: Rank of "being handsome or pretty"(1=most important for popularity, 4=least important)
+* **Money**: Rank of "having lots of money"(1=most important for popularity, 4=least important)
+
+## a. Geef de hypothese indien we een hypothesetoets willen uitvoeren die het verband zoekt tussen de variabelen `goals` en `grade`
+
+
+
+## b. Voer de toets uit gebruik makende van de methode met kritieke grenswaarde evenals met de $p$-waarde (gebruik $\alpha = 0.01$).
+
+
+
+## c. Geef de naam van de metriek en de metriek zelf om de sterkte van dit verband uit te drukken.
+
+
+
+## d. Welke conclusie trek je hier uit?
+

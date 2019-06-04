@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+# betrouwbaarheidsinterval voor normale verdeling
+
+```{r}
+gemiddelde <- 5
+afwijking <- 2
+n <- 45
+alpha <- 0.05
+
+
+
+aanvaardingsgebied <- qnorm(1 - (alpha/2)) * afwijking/sqrt(n)
+aanvaardingsgebied
+
+linkergrens <- gemiddelde - aanvaardingsgebied
+
+rechtergrens <- gemiddelde + aanvaardingsgebied
+
+
+linkergrens
+rechtergrens
+
+```
+
+
+
+
+# betrouwbaarheidsinterval voor een t-verdeling
+
+```{r}
+gemiddelde <- 5
+afwijking <- 2
+n <- 20
+alpha <- 0.05
+
+
+
+aanvaardingsgebied <- qt(1 - (alpha/2), df = n-1) * afwijking/sqrt(n)
+aanvaardingsgebied
+
+linkergrens <- gemiddelde - aanvaardingsgebied
+rechtergrens <- gemiddelde + aanvaardingsgebied
+
+
+linkergrens
+rechtergrens
+
+```
+
+
+
+
