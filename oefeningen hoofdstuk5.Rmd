@@ -18,6 +18,7 @@ _(oefening zelf gemaakt, geen oplossing)_
 
 ## opgave
 
+
 kunnen we in voorbeeld 5.1. zomaar veronderstellen dat het gemiddelde normaal verdeeld is, waarom
 
 ## oplossing

@@ -1,0 +1,81 @@
+---
+title: "Oefening 7.3"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Opgave
+
+Laad de dataset Aids2 uit package MASS die informatie bevat over $2843$ patiënten die voor 1991 in Australië met AIDS besmet werden. Onderzoek of er een relatie is tussen de variabele geslacht (Sex) en de manier van besmetting (T.categ).
+
+1. Ga op de gebruikelijke manier te werk: visualiseren van de data, $\chi^2$, $g$ en $p$-waarde berekenen ($\alpha = 0,05$), en tenslotte een conclusie formuleren.
+2. Bepaal de gestandaardiseerde residuën om te bepalen welke categoriën extreme waarden bevatten.
+
+# Gegeven
+
+```{r}
+library(MASS)
+attach(Aids2)
+
+alpha <- 0.05
+```
+
+# Oplossing
+
+## 1
+
+Ga op de gebruikelijke manier te werk: visualiseren van de data, $\chi^2$, $g$ en $p$-waarde berekenen ($\alpha = 0,05$), en tenslotte een conclusie formuleren.
+
+### Visualiseren van de data
+
+```{r}
+aidsKruistabel <- table(sex, T.categ)
+aidsKruistabel # kruistabel
+
+plot(aidsKruistabel) # niet echt nuttig
+
+bp <- barplot(aidsKruistabel, beside = TRUE, legend=rownames(aidsKruistabel))
+text(bp, aidsKruistabel, aidsKruistabel, pos = '3') # text aan barplot toevoegen
+```
+
+### $\chi^2$
+
+```{r}
+model <- chisq.test(sex, T.categ)
+
+chisq <- model$statistic
+chisq
+```
+
+### $g$
+
+```{r}
+g <- qchisq(1-alpha,df=model$parameter)
+g
+```
+
+### $p$-waarde
+
+```{r}
+p <- model$p.value
+```
+
+### Conclusie
+
+Geen representatieve steekproef: 
+* $\chi^2$ (`r chisq[1]`) > grenswaarde $g$ (`r g[1]`)
+* $p$-waarde (`r p[1]`) < $\alpha$ (`r alpha[1]`)
+
+## 2
+
+Bepaal de gestandaardiseerde residuën om te bepalen welke categoriën extreme waarden bevatten.
+
+```{r}
+model$stdres
+```
+
+Gestandaardiseerde residuën duiden aan welke klassen de grootste bijdragen leveren aan de waarde van de grootheid.
+Algemene regel: waarden groter dan $2$ of kleiner dan $-2$ zijn “extreem”.
