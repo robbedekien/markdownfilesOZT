@@ -1,6 +1,6 @@
 ---
 title: "Voorbeeldexamen oefeningen"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -13,16 +13,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ***
 
-# 1. Beschouw het dataframe `mtcars` dat standaard in R zit.
+## 1. Beschouw het dataframe `mtcars` dat standaard in R zit.
 
-## a. Geef het gemiddelde van de variabele `mpg` (3 cijfers afgerond)
+### a. Geef het gemiddelde van de variabele `mpg` (3 cijfers afgerond)
 
 ```{r}
 gemiddelde <- mean(mtcars$mpg)
 round(gemiddelde, digits = 3) # Afronden
 ```
 
-## b. Geef $Q_1$, $Q_2$, $Q_3$
+### b. Geef $Q_1$, $Q_2$, $Q_3$
 
 ```{r}
 q1 <- quantile(mtcars$mpg,0.25)
@@ -35,9 +35,9 @@ q3
 summary(mtcars$mpg)
 ```
 
-# 2. Een steekproef van $113$ studenten levert een gemiddelde hartslag van $80,08$ slagen/minuut. Men weet dat de standaardafwijking $\sigma = 12,13$ slagen/minuut.
+## 2. Een steekproef van $113$ studenten levert een gemiddelde hartslag van $80,08$ slagen/minuut. Men weet dat de standaardafwijking $\sigma = 12,13$ slagen/minuut.
 
-## a. Bereken het $95\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
+### a. Bereken het $95\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
 
 ```{r}
 n <- 113
@@ -58,7 +58,7 @@ steekproefgem + z * sd / sqrt(n) # bovengrens
 
 *Ofwel via formule $\overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{pq}}{n}}$ met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1 - \overline{p}$.*
 
-## b. Bereken het $99\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
+### b. Bereken het $99\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
 
 ```{r}
 n <- 113
@@ -79,15 +79,15 @@ steekproefgem + z * sd / sqrt(n) # bovengrens
 
 *Ofwel via formule $\overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{pq}}{n}}$ met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1 - \overline{p}$.*
 
-# 3. Een uitvinder heeft een nieuwe, energie-efficiënte grasmaaimachine ontwikkeld. Hij beweert dat de motor gedurende 5 uur ($300$ minuten) voortdurend op een enkele liter gewone benzine loopt. Uit zijn voorraad van $2000$ motoren selecteert de uitvinder een aselecte steekproef van $50$ motoren. De motoren lopen gemiddeld $295$ minuten, met een standaardafwijking van $20$ minuten. Test de nulhypothese dat de gemiddelde looptijd $300$ minuten is tegen de alternatieve hypothese dat de gemiddelde looptijd geen $300$ minuten bedraagt. Gebruik $\alpha = 0,05$ en gebruik de methode met de $p$-waarde. (Veronderstel dat de looptijden van motoren normaal zijn verdeeld en rond tussentijdse resultaten af tot drie cijfers na de komma)
+## 3. Een uitvinder heeft een nieuwe, energie-efficiënte grasmaaimachine ontwikkeld. Hij beweert dat de motor gedurende 5 uur ($300$ minuten) voortdurend op een enkele liter gewone benzine loopt. Uit zijn voorraad van $2000$ motoren selecteert de uitvinder een aselecte steekproef van $50$ motoren. De motoren lopen gemiddeld $295$ minuten, met een standaardafwijking van $20$ minuten. Test de nulhypothese dat de gemiddelde looptijd $300$ minuten is tegen de alternatieve hypothese dat de gemiddelde looptijd geen $300$ minuten bedraagt. Gebruik $\alpha = 0,05$ en gebruik de methode met de $p$-waarde. (Veronderstel dat de looptijden van motoren normaal zijn verdeeld en rond tussentijdse resultaten af tot drie cijfers na de komma)
 
-## a. Geef $H_0$ en $H_1$
+### a. Geef $H_0$ en $H_1$
 
 *$H_0$: De motoren kunnen 300 minuten werken met 1 liter benzine.*
 
 *$H_1$: De motoren kunnen geen 300 minuten werken met 1 liter benzine.*
 
-## b. Voer de test uit
+### b. Voer de test uit
 
 ```{r}
 n = 50
@@ -107,11 +107,11 @@ if(p < alpha){
 }
 ```
 
-## c. Wat concludeer je?
+### c. Wat concludeer je?
 
 *We kunnen $H_0$ niet verwerpen.*
 
-# 4. Open het bestand `breakingbad.csv`. We vinden hierin informatie rond de ratings ingegeven in IMDB voor de serie breaking bad (echte gegevens). We zijn geïnteresseerd in de volgende variabelen:
+## 4. Open het bestand `breakingbad.csv`. We vinden hierin informatie rond de ratings ingegeven in IMDB voor de serie breaking bad (echte gegevens). We zijn geïnteresseerd in de volgende variabelen:
 
 * **UserRating** Gemiddelde user rating per aflevering
 * **ID** Identificatie van een aflevering
@@ -122,7 +122,7 @@ breakingbad <- read.csv("breakingbad.csv")
 ```
 
 
-## a. Geef het meetniveau voor `UserRating`
+### a. Geef het meetniveau voor `UserRating`
 
 ```{r}
 # Bekijken van data in kolom
@@ -131,7 +131,7 @@ breakingbad$UserRating
 
 *Rationiveau: intervalniveau met nulpunt, je kunt hierdoor verhoudingen bere- kenen tussen verschillende waarden op de schaal.*
 
-## b. Geef het meetniveau voor `Season.episode`
+### b. Geef het meetniveau voor `Season.episode`
 
 ```{r}
 # Bekijken van data in kolom
@@ -142,14 +142,14 @@ breakingbad$Season.episode
 
 We zijn geïnteresseerd of er een verband bestaat tussen de `ID` en `UserRating`.
 
-## a. Geef het wiskundig verband indien we een lineair verband wensen te onderzoeken (niet afronden).
+### a. Geef het wiskundig verband indien we een lineair verband wensen te onderzoeken (niet afronden).
 
 ```{r}
 # Co-variantie
 cov(breakingbad$ID, breakingbad$UserRating)
 ```
 
-## b. Geef de waarde van de metriek die de sterkte van dit verband geeft en interpreteer die.
+### b. Geef de waarde van de metriek die de sterkte van dit verband geeft en interpreteer die.
 
 ```{r}
 # correlatiecoëfficiënt
@@ -158,7 +158,7 @@ cor(breakingbad$ID, breakingbad$UserRating)
 
 *De Waarde is positief en dus kunnen we conluderen dat er een positief lineair verband is.*
 
-## c. Geef de waarde van de maat die informatie geeft over de mate waarin het opgestelde model de werkelijke data benadert en interpreteer deze maat.
+### c. Geef de waarde van de maat die informatie geeft over de mate waarin het opgestelde model de werkelijke data benadert en interpreteer deze maat.
 
 ```{r}
 # determinatiecoëfficiënt
@@ -168,7 +168,7 @@ cor^2
 
 *Deze waarde verklaart het percentage van de variantie van de waargenomen waarden tegenover de regressierechte.*
 
-## d. Geef de gemiddelde score voor seizoen 1 en seizoen 5 (`grepl` en reguliere expressies kunnen je hierbij helpen - niet vergeten af te ronden)
+### d. Geef de gemiddelde score voor seizoen 1 en seizoen 5 (`grepl` en reguliere expressies kunnen je hierbij helpen - niet vergeten af te ronden)
 
 Seizoen 1:
 
@@ -186,30 +186,32 @@ seizoen5rating <- subset(breakingbad$UserRating, seizoen5 == TRUE) # selecteert 
 mean(seizoen5rating) # gemiddelde
 ```
 
-# 5. Beschouw de studie gevoerd met als resultaat `kids.csv`. Er werd aan de kinderen gevraagd in verschillende schooldistricten wat ze belangrijk vinden. Ze gaven aan of dat goede punten, sportief zijn of populariteit het belangrijkste was voor hen. Ze moesten ook volgende elementen rangschikken: schoolresultaten, sport, uiterlijk en geld in de orde van belangrijkheid voor hen. Er werd ook gevraagd naar hun geslacht, hun graad en andere informatie. Volgende variabelen worden gedefinieerd:
+## 5. Beschouw de studie gevoerd met als resultaat `kids.csv`. Er werd aan de kinderen gevraagd in verschillende schooldistricten wat ze belangrijk vinden. Ze gaven aan of dat goede punten, sportief zijn of populariteit het belangrijkste was voor hen. Ze moesten ook volgende elementen rangschikken: schoolresultaten, sport, uiterlijk en geld in de orde van belangrijkheid voor hen. Er werd ook gevraagd naar hun geslacht, hun graad en andere informatie. Volgende variabelen worden gedefinieerd:
 
 * **Gender**: Boy or girl
-* **Grade**: 4,5or6
+* **Grade**: 4, 5 or 6
 * **Age**: Age in years
 * **Race**: White, Other
 * **Urban/Rural**: Rural, Suburban, or Urban school district
 * **School**: Brentwood Elementary, Brentwood Middle, Ridge, Sand, Eureka, Brown, Main, Portage, Westdale Middle
 * **Goals**: Student’s choice in the personal goals question where options were 1 = Make Good Grades, 2 = Be Popular, 3 = Be Good in Sports
-* **Grades**: Rank of "make good grades"(1=most important for popularity, 4=least important) Sports : Rank of "being good at sports"(1=most important for popularity, 4=least important)
-* **Looks**: Rank of "being handsome or pretty"(1=most important for popularity, 4=least important)
-* **Money**: Rank of "having lots of money"(1=most important for popularity, 4=least important)
+* **Grades**: Rank of "make good grades" (1=most important for popularity, 4=least important)
+* **Sports**: Rank of "being good at sports" (1=most important for popularity, 4=least important)
+* **Looks**: Rank of "being handsome or pretty" (1=most important for popularity, 4=least important)
+* **Money**: Rank of "having lots of money" (1=most important for popularity, 4=least important)
 
-## a. Geef de hypothese indien we een hypothesetoets willen uitvoeren die het verband zoekt tussen de variabelen `goals` en `grade`
-
-
-
-## b. Voer de toets uit gebruik makende van de methode met kritieke grenswaarde evenals met de $p$-waarde (gebruik $\alpha = 0.01$).
+### a. Geef de hypothese indien we een hypothesetoets willen uitvoeren die het verband zoekt tussen de variabelen `goals` en `grade`
 
 
 
-## c. Geef de naam van de metriek en de metriek zelf om de sterkte van dit verband uit te drukken.
+
+### b. Voer de toets uit gebruik makende van de methode met kritieke grenswaarde evenals met de $p$-waarde (gebruik $\alpha = 0.01$).
+
+
+### c. Geef de naam van de metriek en de metriek zelf om de sterkte van dit verband uit te drukken.
 
 
 
-## d. Welke conclusie trek je hier uit?
+
+### d. Welke conclusie trek je hier uit?
 
