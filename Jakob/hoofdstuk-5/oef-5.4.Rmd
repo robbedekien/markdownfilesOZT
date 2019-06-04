@@ -55,6 +55,4 @@ $H_0$ verwerpen. p-waarde (`r p[1]`) is kleiner dan significantieniveau ($\alpha
 
 Geef een interpretatie wat de betekenis is van $\alpha = 2,5\%$.
 
-Als $\alpha = 2.5\%$ of $\alpha = 0.025$ kunnen we veronderstellen dat $97.5\%$ van de steekproeven bij een normaal verdeelde dataset binnen het betrouwbaarheidsinterval liggen.
-Als een waarde buiten de kritieke grenswaarde valt, is er slechts $2.5\%$ kans dat hij uit de populatie getrokken is. Deze kans is dus heel klein. In dit geval met de nulhypothese verworpen worden.
-_Oplossing dankzij Tijs._
+$\alpha$ stelt een kans voor van $2,5\%$ waarbij een willekeurige steekproef toch een gemiddelde heeft dat gelijk is aan $44$, met andere woorden $2,5\%$ kans dat je $H_0$ ($\mu = 44$) ten onrechte zou verwerpen of er is een kans van $2,5\%$ dat je ten onrechte de conclusie trekt dat het studierendement hoger is geworden. (Type I steekproef fout)
