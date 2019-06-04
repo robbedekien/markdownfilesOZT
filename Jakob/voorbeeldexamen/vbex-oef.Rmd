@@ -81,19 +81,33 @@ steekproefgem + z * sd / sqrt(n) # bovengrens
 
 ## a. Geef $H_0$ en $H_1$
 
-*$H_0$: *
+*$H_0$: De motoren kunnen 300 minuten werken met 1 liter benzine.*
 
-*$H_1$: *
+*$H_1$: De motoren kunnen geen 300 minuten werken met 1 liter benzine.*
 
 ## b. Voer de test uit
 
 ```{r}
+n = 50
+steekproefGem = 295
+standaardafwijking = 20
+alpha = 0.05
+populatieGem = 300
 
+p <- 1 - pt((steekproefGem - populatieGem) / (standaardafwijking/sqrt(n)), df = n-1)
+    
+if(p < alpha){
+  print("H0 verwerpen!")
+  print(paste0("p-waarde (",round(p, digits=3),") < significantieniveau (alpha)! (",alpha,")"))
+}else{
+  print("H0 niet verwerpen!")
+  print(paste0("p-waarde (",round(p, digits=3),") > significantieniveau (alpha)! (",alpha,")"))
+}
 ```
 
 ## c. Wat concludeer je?
 
-
+*We kunnen $H_0$ niet verwerpen.*
 
 # 4. Open het bestand `breakingbad.csv`. We vinden hierin informatie rond de ratings ingegeven in IMDB voor de serie breaking bad (echte gegevens). We zijn geïnteresseerd in de volgende variabelen:
 
