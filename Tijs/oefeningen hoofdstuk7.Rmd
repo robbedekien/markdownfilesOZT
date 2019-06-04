@@ -1,0 +1,347 @@
+---
+title: "oefeningen hoofdstuk 7 - De XÃ,Â² kwadraat toets"
+author: "TijsMartens"
+date: "12 april 2019"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# oefening 7.1. 
+
+## opgave
+
+Hoe komen we hier aan de noemer? Waar komt dit mee overeen? Hoe bepaal je
+de variantie van een binomiale verdeling?
+
+$r_i = \frac{O_i - n \pi_i}{\sqrt{n\pi_i(1-\pi_i)}}$
+
+formule voor het aanduiden welke klasse de grootste bedrijge levert
+
+## oplossing
+
+$n \times \pi (1 - \pi)$
+
+
+ 
+
+# Oefening 7.2. 
+
+
+Inlezen van de file (afkomstig uit de library)
+
+ 
+```{r}
+library(MASS)
+
+View(survey)
+attach(survey)
+```
+
+## sporten en rookgedrag
+
+
+### a
+
+uit te voeren onderzoeken
+
+* sporten & roken (onderzoek 1)
+* schrijfhand & bovenste hand (onderzoek 2)
+* geslacht & roken (onderzoek 3)
+* geslacht & schrijfhand (onderzoek 4)
+
+
+### b. kruistabellen maken
+
+#### onderzoek 1: 
+```{r}
+kruistabelO1 <- table(Smoke, Exer)
+kruistabelO1
+```
+
+#### onderzoek 2: 
+```{r}
+kruistabelO2 <- table(Fold, W.Hnd)
+kruistabelO2 
+```
+
+
+#### onderzoek 3: 
+```{r}
+kruistabelO3 <- table(Sex, Smoke)
+kruistabelO3 
+```
+
+#### onderzoek 4: 
+```{r}
+kruistabelO4 <- table(Sex, W.Hnd)
+kruistabelO4 
+```
+### c. grafisch voorstellen
+#### onderzoek 1:
+```{r}
+plot(kruistabelO1, ylab = 'smoke', xlab = 'exersise')
+
+
+barplot(kruistabelO1, xlab = 'sport', beside = TRUE, legend=rownames(kruistabelO1))
+```
+
+
+
+#### onderzoek 2:
+
+```{r}
+plot(kruistabelO2, ylab = 'writing hand', xlab = 'fold')
+
+
+barplot(kruistabelO2, xlab = 'writing hand', beside = TRUE, legend=rownames(kruistabelO2))
+```
+#### onderzoek 3:
+```{r}
+plot(kruistabelO3, ylab = 'smoke', xlab = 'gender')
+
+
+barplot(kruistabelO3, xlab = "smoking" , beside = TRUE, legend=rownames(kruistabelO3))
+```
+#### onderzoek 4:
+```{r}
+plot(kruistabelO4, ylab = 'smoke', xlab = 'gender')
+
+
+barplot(kruistabelO4, xlab = 'writing hand', beside = TRUE, legend=rownames(kruistabelO4))
+```
+
+### d 
+
+#### onderzoek 1:
+
+hoog
+
+#### onderzoek 2:
+
+laag
+
+#### onderzoek 3:
+
+laag
+
+#### onderzoek 4:
+
+laag
+
+### e / f
+
+#### onderzoek 1:
+```{r}
+chisq.test(kruistabelO1)
+df01 <- (nrow(kruistabelO1)-1) * (ncol(kruistabelO1)-1)
+df01
+
+qchisq(0.95, df01)
+```
+chi² = 5.48
+vrijheidsgraden = 6
+grenswaarde = 12.59
+p-value = 0.48
+
+#### onderzoek 2:
+
+```{r}
+chisq.test(kruistabelO2)
+df02 <- (nrow(kruistabelO2)-1) * (ncol(kruistabelO2)-1)
+df02
+
+qchisq(0.95, df02)
+```
+chi² = 1.58
+vrijheidsgraden = 2
+grenswaarde =  5.99
+p-value = 0.45
+
+#### onderzoek 3:
+
+```{r}
+chisq.test(kruistabelO3)
+df03 <- (nrow(kruistabelO3)-1) * (ncol(kruistabelO3)-1)
+df03
+
+qchisq(0.95, df03)
+```
+chi² = 3.55
+vrijheidsgraden = 3
+grenswaarde = 7.81
+p-value = 0.31
+
+#### onderzoek 4:
+
+```{r}
+chisq.test(kruistabelO4)
+df04 <- (nrow(kruistabelO4)-1) * (ncol(kruistabelO4)-1)
+df04
+
+qchisq(0.95, df04)
+```
+chi² = 0.24
+vrijheidsgraden = 1
+grenswaarde = 3.84
+p-value = 0.62
+
+
+### g
+
+#### onderzoek 1:
+
+
+de nulhypothese wordt NIET verworpen,  p (0.48) is groter dan alpha (0.05)
+
+we hebben een representatieve steekproef, chi²(5.48) is kleiner dan de grenswaarde (12.59)
+
+#### onderzoek 2:
+
+
+de nulhypothese mag NIET verworpen worden, p (0.45) is groter dan alpha (0.05)
+
+we hebben een representatieve steekproef, chi²(1.58) is kleiner dan de grenswaarde (5.99)
+
+#### onderzoek 3:
+
+
+de nulhypothese mag NIET verworpen worden, p (0.31) is groter dan alpha (0.05)
+
+we hebben een representatieve steekproef, chi² (3.55) is kleiner dan de grenswaarde (7.81)
+
+#### onderzoek 4:
+
+chi² = 0.24
+vrijheidsgraden = 1
+grenswaarde = 3.84
+p-valu = 0.62
+
+de nulhypothese mag NIET verworpen worden, p (0.61) is groter dan alpha (0.05)
+
+we hebben een representatieve steekproef, chi² (0.24) is kleiner dan de grenswaarde (3.84)
+
+
+
+
+
+
+# oefening 7.3. 
+
+## opgave
+Laad de dataset Aids2 uit package MASS (zie Oefening 7.2) die informatie bevat over 2843 patiënten die vóór 1991 in Australië met AIDS besmet werden. 
+Deze dataset werd in detail besproken door Ripley en Solomon (2007).
+Onderzoek of er een relatie is tussen de variabele geslacht (Sex) en de manier van besmetting (T.categ).
+
+1. Ga op de gebruikelijke manier te werk: visualiseren van de data, chi², g en p-waarde
+berekenen (alpha = 0,05), en tenslotte een conclusie formuleren.
+
+2. Bepaal de gestandaardiseerde residuën om te bepalen welke categorieën extreme waarden
+bevatten.
+
+
+## oplossing
+```{r}
+library(MASS)
+
+attach(Aids2)
+```
+
+
+### deel 1
+
+```{r}
+aidsKruistabel <- table(sex, T.categ)
+aidsKruistabel
+```
+
+```{r}
+plot(aidsKruistabel)
+
+bp <- barplot(aidsKruistabel, beside = TRUE, legend=rownames(aidsKruistabel))
+text(bp, aidsKruistabel, aidsKruistabel, pos = '3')
+```
+
+```{r}
+summary(aidsKruistabel)
+vrijheidsgraden <- (nrow(aidsKruistabel) -1 )* (ncol(aidsKruistabel)-1)
+vrijheidsgraden
+
+grens <- qchisq(0.95, vrijheidsgraden)
+grens
+```
+
+chi² = 1083.4
+p-waarde =  $1.15 \times 10^{229}$
+vrijheidsgraden = 7
+grenswaarde = 14.07
+
+geen representatieve steekproef aangezien dat chi² groter is dan de grenswaarde
+
+
+
+### deel 2
+
+gestandaardiseerde residuen duiden aan welke klassen de grootste bijdragen leven aan de waarde van de grootheid
+
+algemene regel: waarden groter dan 2 of kleiner dan -2 zijn "extreem"
+
+
+formule: 
+$r_i =  \frac{O_i - n\pi_i}{\sqrt{n\pi(1-pi_i)}}$
+
+
+
+voorstelling door grafiek
+
+
+```{r}
+data <- chisq.test(sex, T.categ)
+data$stdres
+```
+
+
+# oefening 7.4. 
+
+## opdracht
+
+Elk jaar voert Imec (voorheen iMinds) een studie uit over het gebruik van digitale
+technologieën in Vlaanderen, de Digimeter (Vanhaelewyn & De Marez, 2016). In deze oefening
+zullen we nagaan of de steekproef van de Digimeter 2016 (n = 2164) representatief is voor de
+bevolking wat betreft de leeftijdscategorieën van de deelnemers.
+In Tabel 7.2a worden de relatieve frequencies van de deelnemers weergegeven. De absolute frequenties voor de verschillende leeftijdscategorieën van de Vlaamse bevolking worden samengevat in Tabel 7.2b. Deze gegevens zijn ook te vinden in bijgevoegd CSV-bestand
+oefeningen/data/bestat-vl-ages.csv.
+
+1. De tabel met leeftijdsgegevens van de Vlaamse bevolking als geheel heeft meer categorieën
+dan deze gebruikt in de Digimeter. Maak een samenvatting zodat je dezelfde categorieën
+overhoudt dan deze van de Digimeter. Tip: dit gaat misschien makkelijker in een rekenblad
+dan in R.
+2. Om de goodness-of-fit test te kunnen toepassen hebben we de absolute frequenties nodig
+van de geobserveerde waarden in de steekproef. Bereken deze.
+3. Bereken ook de verwachte percentages (??i) voor de populatie als geheel.
+4. Voer de goodness-of-fit test uit over de verdeling van leeftijdscategorieën in de steekproef
+van de Digimeter. Is de steekproef in dit opzicht inderdaad representatief voor de Vlaamse
+bevolking?
+
+
+## oplossing
+```{r}
+technologiegebruikt <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst7_chikwadraat\\bestat-vl-ages.csv")
+
+technologiegebruikt
+```
+
+
+
+# interessante libraries
+
+gplots
+graphics
+- interessant voor examen blijkbaar
+visualize
+- duidelijk tonen van toetsen

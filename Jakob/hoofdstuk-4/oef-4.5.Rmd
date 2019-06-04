@@ -1,0 +1,106 @@
+---
+title: "Oefening 4.5"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Opgave
+
+Bereken ook elke keer het gevraagde gebied.
+
+# Oplossing
+
+## A
+
+$P(Z < 1.33)$
+
+```{r a}
+pnorm(1.33)
+```
+
+## B
+
+$P(Z > 1.33)$
+
+```{r b}
+1 - pnorm(1.33)
+# of
+pnorm(1.33, lower.tail = FALSE)
+```
+
+## C
+
+$P(Z < -1.33)$
+
+```{r c}
+pnorm(-1.33)
+```
+
+## D
+
+$P(Z > -1.33)$
+
+```{r d}
+1 - pnorm(-1.33)
+# of
+pnorm(-1.33, lower.tail = FALSE)
+```
+
+## E
+
+$P(Z < 0.45)$
+
+```{r e}
+pnorm(0.45)
+```
+
+## F
+
+$P(Z > -1.05)$
+
+```{r f}
+1 - pnorm(-1.05)
+# of
+pnorm(-1.05, lower.tail = FALSE)
+```
+
+## G
+
+$P(Z < 0.65)$
+
+```{r g}
+pnorm(0.65)
+```
+
+## H
+
+$P(-0.45 < Z < 1.20)$
+
+```{r h}
+kans1 <- pnorm(-0.45)
+kans2 <- pnorm(1.20)
+kans2 - kans1
+```
+
+## I
+
+$P(-1.35 < Z < -0.10)$
+
+```{r i}
+kans1 <- pnorm(-1.35)
+kans2 <- pnorm(-0.10)
+kans2 - kans1
+```
+
+## J
+
+$P(-2.10 < Z < -0.90)$
+
+```{r j}
+kans1 <- pnorm(-2.10)
+kans2 <- pnorm(-0.90)
+kans2 - kans1
+```

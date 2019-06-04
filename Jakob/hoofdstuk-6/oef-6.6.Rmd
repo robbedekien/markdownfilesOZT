@@ -1,0 +1,77 @@
+---
+title: "Oefening 6.6"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Opgave
+
+Lees het databestand "Cats.csv" in.
+
+1. Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (_Bwt_, afhankelijke variabele) en Gewicht hart (_Hwt_, onafhankelijke variabele).
+2. Maak een spreidingsdiagram van beide variabelen.
+3. Bereken en teken de regressielijn.
+4. Bereken de correlatie- en de determinatiecoëfficiënt.
+5. Geef een interpretatie van deze resultaten.
+
+# Gegeven
+
+```{r}
+data <- read.csv("Cats.csv")
+data[1] <- NULL # verwijderen van "ID" kolom
+```
+
+# Oplossing
+
+## 1
+
+Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (_Bwt_, afhankelijke variabele) en Gewicht hart (_Hwt_, onafhankelijke variabele).
+
+```{r}
+onafhanekelijkeVar <- data$Hwt
+afhankelijkeVar <- data$Bwt
+regression <- lm(afhankelijkeVar ~ onafhanekelijkeVar)
+# of
+regression <- lm(Bwt ~ Hwt, data = data) # formula = afhankelijke var ~ onafhankelijke var
+regression
+```
+
+## 2
+
+Maak een spreidingsdiagram van beide variabelen.
+
+```{r}
+plot(x = onafhanekelijkeVar, xlab = "Gewicht hart (in kg)", # kg is een gokje
+     y = afhankelijkeVar, ylab = "Lichaamsgewicht (in kg)") # kg is een gokje
+```
+
+## 3
+
+Bereken en teken de regressielijn.
+
+```{r}
+plot(x = onafhanekelijkeVar, xlab = "Gewicht hart (in kg)", # kg is een gokje
+     y = afhankelijkeVar, ylab = "Lichaamsgewicht (in kg)") # kg is een gokje
+abline(regression, col = 'red')
+```
+
+## 4
+
+Bereken de correlatie- en de determinatiecoëfficiënt.
+
+```{r}
+cor <- cor(x=onafhanekelijkeVar, y=afhankelijkeVar)
+cor       # correlatiecoëfficiënt
+cor^2     # determinatiecoëfficiënt
+```
+
+## 5
+
+Geef een interpretatie van deze resultaten.
+
+Er is een correlatie van `r cor[1]`. Dit duidt op een positief lineair verband (stijgend).
+De spreiding rond de regressierechte is vrij groot (determinatiecoëfficiënt).
+
