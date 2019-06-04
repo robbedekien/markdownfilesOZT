@@ -1,0 +1,86 @@
+---
+title: "Oefening 3.8"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Opgave
+
+Gebruik de functies mean en range om het gemiddelde en bereik van:
+
+1. de cijfers 1, 2, . . . , 21
+2. 50 willekeurige normale waarden, die worden gegenereerd vanuit een normale distributie met gemiddelde 0 en variantie 1 (functie rnorm)
+3. de kolommen height en weight in de data frame women (standaard in R).
+
+# Gegeven
+
+```{r}
+# Data oefening 1
+data1 <- 1:21
+data1
+# Data oefening 2
+data2 <- rnorm(n = 50, mean = 0, sd = sqrt(1))
+data2
+# Data oefening 3
+data3 <- subset(x = women, select=c("height", "weight"))
+data3
+```
+
+# Oplossing
+
+**LET OP: enkel centrummaten opgeven is nooit voldoende!**
+
+## 1
+
+```{r 1}
+# Gemiddelde
+mean(data1)
+# Bereik
+range(data1)
+# Standaardafwijking
+#sd(data1)
+# Kwartielen
+#quantile(data1)
+```
+
+# 2
+
+```{r 2}
+# Gemiddelde
+mean(data2)
+# Bereik
+range(data2)
+# Standaardafwijking
+sd(data2)
+# Kwartielen
+#quantile(data2)
+```
+
+# 3
+
+```{r 3}
+# Gemiddelde
+mean(data3$height)
+# Bereik
+range(data3$height)
+# Standaardafwijking
+sd(data3$height)
+# Kwartielen
+quantile(data3$height)
+# Mediaan
+median(data3$height)
+
+# Gemiddelde
+mean(data3$weight)
+# Bereik
+range(data3$weight)
+# Standaardafwijking
+sd(data3$weight)
+# Kwartielen
+quantile(data3$weight)
+# Mediaan
+median(data3$weight)
+```

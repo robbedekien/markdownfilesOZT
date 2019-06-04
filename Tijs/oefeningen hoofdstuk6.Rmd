@@ -1,0 +1,676 @@
+---
+title: "oefeningen hoofdstuk 6 - Analyse op 2 Variabelen"
+author: "Tijs Martens"
+date: "12 april 2019"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# voorbeeld bij 6.2: Het opstellen van een kruistabel
+
+
+data invoeren en opmaken van de tabel
+```{r}
+waarderingen_m <- matrix(c(9,8,5,0,8,10,5,4), ncol = 2)
+
+rownames(waarderingen_m) <- c("Goed","Voldoende", "Onvoldoende", "Slecht")
+colnames(waarderingen_m)<- c("Man", "Vrouw")
+waarderingen <- as.table(waarderingen_m)
+```
+
+
+marginale totalen berekenen
+```{r}
+margin.table(waarderingen, 1) # rijtotalen
+margin.table(waarderingen, 2) # kolomtotalen
+margin.table(waarderingen) # aantal waarnemingen (n)
+```
+
+percentages van rijen berekenen
+```{r}
+waarderingen_pct <- prop.table(waarderingen, 2)
+waarderingen_pct
+```
+
+berekenen chi-kwadraat
+```{r}
+#verwacht <- as.array(margin.table(waarderingen, 1)) %*%t(as.array(margin.table(waarderingen, 2))) / margin.#table(waarderingen)
+
+#afwijking <- (waarderingen - verwacht) ^ 2 / verwacht 
+
+#sum(afwijking)
+
+## ^ is het zelfde als volgende code
+
+
+summ <- summary(waarderingen)
+chi_sq <- summ$statistic
+
+chi_sq
+```
+
+berekenen van Cramér's V
+```{r}
+k <- min(nrow(waarderingen), ncol(waarderingen))
+V <- sqrt(chi_sq/margin.table((waarderingen) * (k-1)))
+
+k
+V
+
+```
+
+
+bekomen resultaten
+```{r}
+t(waarderingen)
+
+waarderingen
+
+waarderingen_pct
+```
+
+
+maken tabel
+```{r}
+plot(t(waarderingen))
+```
+
+maken geclustere bar chart
+```{r}
+barplot(waarderingen, beside = TRUE)
+```
+
+maken van percentage chart
+```{r}
+barplot(waarderingen_pct, horiz = TRUE)
+```
+
+
+# voorbeeld 6.4. 
+
+voorbeelde van een regressierechte
+
+```{r}
+
+
+data <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\cursus\\data\\santa.txt", sep=";", dec=",")
+
+attach(data)
+data
+```
+
+code is juist om regressierechte te tekenen. Maar hij kent kolom "x" en "y" smh niet
+```{r}
+#x = eiwitgehalte
+#y = gewichttoename
+
+#plot(x, y, main = 'gewichttoename', xlab = 'eiwitgehalte', ylab = 'gewichtstoename')
+
+##regressie berekenen
+
+#regr <- lm(y ~ x)
+#regr
+
+#abline(regr, col="red")
+```
+
+
+
+# oefening 6.1.
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Marktonderzoek toont aan dat achtergrondmuziek in een supermarkt invloed kan hebben op het aankoopgedrag van de klanten. In een onderzoek werden drie methoden met elkaar vergeleken: geen muziek, Franse chansons en Italiaanse hits. Telkens werd het aantal verkochte ???essen Franse, Italiaanse en andere wijnen geteld (Ryan, Northrop-Clewes, Knox & Thurnham, 1998).
+De onderzoeksdata bevindt zich in het csv-bestand MuziekWijn.
+
+
+1. Stel de correcte kruistabel op. Gebruik hiervoor het R-commando table om de frequentietabel te bekomen. 
+2. Bepaal de marginalen. 
+3. Bepaal de verwachte resultaten. 
+4. Bereken manueel de ??2 toetsingsgrootheid. 
+5. Bereken manueel de Cramér's V. Wat kan je hieruit besluiten?
+
+
+## oplossing
+
+inlezezen csv bestand
+```{r}
+
+
+data <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\MuziekWijn.csv")
+
+data
+```
+
+## 1.
+
+opstellen van de frequentietabel
+```{r}
+kruistabel <-table(data)
+kruistabel
+```
+
+## 2.
+
+bepalen van de marginalen
+```{r}
+margin.table(kruistabel, 1)
+margin.table(kruistabel, 2)
+prop.table(kruistabel)
+```
+
+## 3. 
+
+bepalen van de verwachte waarden
+
+```{r}
+library(gmodels)
+library(lsr)
+
+CrossTable(kruistabel)
+```
+
+## 4. 
+bereken manueel de chi kwadraat
+
+met r:
+```{r}
+cramersV(kruistabel)
+```
+
+manueel:
+
+$\sum \frac{(a - e)^2}{e}$
+
+a = geobserveerde waarde
+e = verwachte waarde 
+
+* verwachte waarde berekenen 
+
+$e = (\frac{rijtotaal}{n} \times \frac{kolomtotaal}{n} \times n)$
+$e = \frac{rijtotaal \times kolomtotaal}{n}$
+```{r}
+kruistabel
+
+aantalKol <- ncol(kruistabel)
+aantalKol
+
+aantalRij <- nrow(kruistabel)
+aantalRij
+
+n <- nrow(data)
+n
+
+e = (aantalKol * aantalRij) / n
+e
+```
+
+* chi kwadraat berekenen
+
+$\sum \frac{(a - e)^2}{e}$
+
+
+
+
+
+## 5. 
+
+```{r}
+chisq.test(kruistabel)
+qchisq(0.95, df = 4)
+qchisq(1-0.001088, df = 4)
+
+x <- seq(0, 20, length=100)
+hx <- dchisq(x, df = 4)
+plot(x, hx, type="l")
+```
+
+# oefening 6.2.
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Gebruik dezelfde data.
+
+1. Stel de percentages verkochte wijnen voor in een staafdiagram met de muziekconditie= Geen. 
+2. Stel de percentages verkochte wijnen voor in een geclusterd staafdiagram (clustered bar chart). 
+3. Stel de percentages verkochte wijnen voor in rependiagram (stacked bar chart)
+## oplossing
+
+library(vcd)
+assocstats(data)
+
+```{r}
+
+data <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\MuziekWijn.csv")
+
+data
+
+```
+
+### 1. staafdiagram
+```{r}
+tabel <- table(data$Muziek)
+tabel
+
+barplot(tabel)
+```
+
+
+### 2. geclusterde staafdiagram
+```{r}
+tabel <- table(data)
+barplot(tabel, beside = TRUE)
+
+```
+
+### 3. rependiagram - stacked bar chart
+```{r}
+tabel <- table(data)
+barplot(tabel)
+
+```
+
+# oefening 6.3.
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Lees het databestand "Aardbevingen.csv" in.
+
+1. Maak een histogram en een boxplot van de variabele "Magnitudes". 
+2. Maak een lijngra???ek met het aantal aardbevingen per maand. 
+3. Onderzoek of er een verband bestaat tussen de variabelen "Type" en "Source". Bereken ook de Cramér's V-waarde. Wat is de conclusie?
+
+## oplossing
+
+inlezen data
+```{r}
+aardbevingen <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Aardbevingen.csv")
+
+View(aardbevingen)
+```
+
+### histogram van "magnitudes"
+
+```{r}
+hist(aardbevingen$Magnitude)
+```
+
+### boxplot van magnitudes
+
+```{r}
+boxplot(aardbevingen$Magnitude, horizontal = TRUE)
+```
+
+### lijngrafiek aardbevingen per maand
+```{r}
+typeof(aardbevingen$Date)
+
+# omzetten integer naar data
+
+aardbevingen$Date <- as.Date(aardbevingen$Date,"%Y/%m/%d")
+
+typeof(aardbevingen$Date)
+
+str(aardbevingen)
+
+aardbevingen$month <- as.Date(cut(aardbevingen$Date, breaks = "month"))
+
+
+#?????????????????????????? 
+
+
+```
+ 
+
+### onderzoek als er een verband is tussen "type" en "source"
+
+*hypothese*
+h0 - er is geen verband
+h1 -  er is wel een verband
+
+*cramèrs v*
+```{r}
+cramersV(aardbevingen$Type, aardbevingen$Source)
+```
+de cramèrs V is 0.067
+
+een cramèrs v van 0 wil zeggen dat er geen verband is tussen da veriabelen
+een cramèrs v van 1 wil zeggen dat er een perfect vand is tussen de variaelen
+
+In dit geval kunnen we dus stellen dat er geen verband is tussen het type en de oorzaak.
+We kunnne de nulhypothese dan ook NIET verwerpen
+
+
+
+
+# oefening 6.4.
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+ * Bepaal handmatig de regressierechte ??0+??1x.
+ * Bepaal handmatig de correlatie- en determinatiecoëf???ciënt (R,R2)
+ * Geef uitleg bij de gevonden statistieken
+## oplossing
+
+## oplossing
+
+## 1. handmatig
+
+```{r}
+x <- c(10, 12, 8, 13, 9, 10, 7, 14, 11, 6)
+y <- c(11, 14, 9, 13, 9, 9, 8, 14, 10, 6)
+
+mx <- mean(x)
+my <- mean(y)
+
+xx <- x - mx
+yy <- y - my
+beta1 <- sum(xx*yy)/sum(xx^2)
+beta0 <- my - beta1 * mx
+```
+
+
+## 2. 
+
+```{r}
+
+plot(x, y)
+
+regr <- lm(y~ x)
+abline(regr, col="red")
+
+```
+
+
+## 3. uitleg
+
+hoe dichter de punten bij de lijn ligt hoe beter het verband
+
+## 4. bepaal handmatig r en r kwadraat
+
+bepalen r
+```{r}
+cov(x = x, y = y)
+```
+
+pearson's correlatie co
+
+```{r}
+rr <- cor (x, y)
+rr
+```
+in het kwadraat
+
+= +- 81% 81% van het gemiddelde wordt betpaald door ??????????????? de rest door toeval
+
+# oefening 6.5.
+/
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Gegeven 6 scatterplots in volgende ???guur en onderstaande correlatiecoëf???ciënten. Match de coëf???ciënten met de scatterplots. Er is dus één scatterplot waarvan geen correlatie gegeven staat hieronder.
+
+## oplossing
+
+als r
+
+* = 0 ==> geen verband te zien
+* = 1 ==> stijgend verband
+* = -1 ==> dalend verband
+
+r1 = E
+
+* 0.6
+* de algemene trend van de waarden is stijgend, r moet dus groter zijn dan 0
+* liggen niet heel dicht gegroepeerd, r dus ook nie "dicht" bij 1
+
+r2 = D
+
+* 0
+* 0 betekend dat er geen relatie is, de waarden van grafiek D liggen random door elkaar
+
+r3 = C
+
+* -0.9
+* negatieve waarde = dalend verband
+* dicht bij -1 dus de waarden moeten dicht bij elkaar liggen
+
+r4 = A
+
+* 0.9
+* positieve waarde = stijgend verband
+* dicht bij 1 dus de waarden moeten dicht bij elkaar liggen
+
+r5 = F
+
+* 0.3
+* waarde dicht bij 0, er is dus geen duidelijk verband
+* in grafiek F liggen de waarden ver uit elkaar en zij ze op het eerste zicht "onvoorspelbaar". Het valt wel op dat er een algemene stijgende trend is. Dit komt overeen met de 0.3
+
+# oefening 6.6.
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+Lees het databestand "Cats.csv" in.
+1. Voer een lineaire regressieanalyse uit op de variabelen Lichaamsgewicht (Bwt, afhankelijke variabele) en Gewicht hart (Hwt, onafhankelijke variabele). 
+2. Maak een spreidingsdiagram van beide variabelen. 
+3. Bereken en teken de regressielijn. 
+4. Bereken de correlatie- en de determinatiecoëf???ciënt. 
+5. Geef een interpretatie van deze resultaten.
+
+
+## oplossing
+bestand inladen
+```{r}
+cats <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Cats.csv")
+View(cats)
+```
+
+### 1. lineaire regressie 
+```{r}
+afhankelijk <- cats$Bwt
+onafhankelijk <- cats$Hwt
+
+regr <- lm(onafhankelijk ~ afhankelijk)
+regr
+
+```
+
+### 2. spreidingsdiagram
+
+```{r}
+plot(afhankelijk, onafhankelijk)
+```
+
+### 3. regressierechte
+```{r}
+plot(afhankelijk, onafhankelijk)
+
+abline(regr, col="red")
+```
+
+### 4. correlatie en determinantcoëfficient
+
+*manueel:*
+```{r}
+covarantie<-cov(onafhankelijk, afhankelijk)
+covarantie
+
+r = covarantie / (sd(onafhankelijk) * sd(afhankelijk))
+correlatie <- r
+correlatie
+
+determinantcoefficient <- r*r
+determinantcoefficient
+
+```
+
+*met r:*
+```{r}
+co <- cor(onafhankelijk,afhankelijk, method = 'pearson') 
+co
+
+determinantcoefficient <-co * co
+determinantcoefficient
+```
+
+### 5. interpretatie
+
+er is een correlatie van 0.80. Dit duidt op een start stijgend verband.
+
+de spreiding rond de regressierechte is vrij groot
+
+# oefening 6.7.
+
+
+## opgave
+
+1. VoereenlineaireregressieanalyseuitopdevariabelenLichaamsgewicht(Bwt)enGewicht hart (Hwt) per geslacht. 
+2. Maak een spreidingsdiagram van beide variabelen voor elk van de geslachten. 
+3. Bereken en teken telkens de regressielijn. 
+4. Bereken de correlatie- en de determinatiecoëf???ciënt. 
+5. Geef een interpretatie aan deze resultaten.
+
+
+## oplossing
+
+bestand inladen
+```{r}
+cats <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Cats.csv")
+View(cats)
+```
+
+### 1. regressie
+```{r}
+maleCats <- subset(cats, cats$Sex=="M")
+femaleCats <- subset(cats, cats$Sex=="F")
+
+#hangt gewicht van een hart of van het lichaamsgewicht?
+maleAfhankelijk <- maleCats$Bwt
+maleOnafhankelijk <- maleCats$Hwt
+
+maleRegressie <- lm(maleOnafhankelijk ~ maleAfhankelijk)
+maleRegressie
+
+femaleAfhankelijk <- femaleCats$Bwt
+femaleOnafhankelijk <- femaleCats$Hwt
+
+femaleRegressie <- lm(femaleOnafhankelijk ~ femaleAfhankelijk)
+femaleRegressie
+
+```
+
+### 2. spreiding
+
+male: 
+```{r}
+plot(maleAfhankelijk, maleOnafhankelijk)
+```
+female
+```{r}
+plot(femaleAfhankelijk, femaleOnafhankelijk)
+```
+
+
+### 3. regressierechte
+
+male:
+```{r}
+plot(maleAfhankelijk, maleOnafhankelijk)
+abline(maleRegressie, col = "red")
+```
+
+female:
+```{r}
+plot(femaleAfhankelijk, femaleOnafhankelijk)
+abline(femaleRegressie, col = "red")
+```
+
+### 4. correlatie en determinantcoefficient
+
+male
+```{r}
+maleCo <- cor(maleOnafhankelijk,maleAfhankelijk, method = 'pearson') 
+maleCo
+
+maleDeterminantcoefficient <-maleCo * maleCo
+maleDeterminantcoefficient
+```
+
+female
+```{r}
+femaleCo <- cor(femaleOnafhankelijk,femaleAfhankelijk, method = 'pearson') 
+femaleCo
+
+femaleDeterminantcoefficient <-femaleCo * femaleCo
+femaleDeterminantcoefficient
+```
+
+### 5. interpretatie
+
+male
+ 
+* sterk sijgend lineair verband 
+
+female
+
+* zwak stijgend lineair verband
+
+# oefening 6.8.
+
+_(oefening zelf gemaakt, geen oplossing)_
+
+## opgave
+
+ Lees het databestand "Pizza.csv" in.
+ 
+1. Voer een volledige lineaire regressieanalyse uit op de variabelen Rating en CostPerSlice. Trek hieruit de juiste conclusies en ga deze ook gra???sch na. 
+2. Onderzoek een mogelijk verband tussen Rating en Neighbourhood. Welke methode kan je hiervoorgebruiken? KanjedegegevensvanRatinghiervoorindezelfdevormgebruiken? 
+3. Geef een interpretatie aan deze resultaten. 
+4. Stel de kruistabel gra???sch voor met een staafdiagram. Voorzie een legende.
+
+
+## oplossing
+
+inlezen data
+
+```{r}
+pizzas <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\files\\onderzoekstechnieken-cursus\\oefeningen\\data\\hfst6_2variabelen\\Pizza.csv")
+View(pizzas)
+```
+
+### 1. regressie
+
+```{r}
+plot(pizzas$Rating, pizzas$CostPerSlice)
+
+regr <- lm(pizzas$CostPerSlice ~ pizzas$Rating)
+abline(regr, col='red')
+
+regr
+```
+
+er is weinig samenhang
+
+### 2. relatie tussen rating en neigbourhood
+
+
+

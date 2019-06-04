@@ -1,0 +1,227 @@
+---
+title: "Onderzoekstechnieken"
+author: "TijsMartens"
+date: "6 april 2019"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# aan de slag
+
+## algemeen
+
+alle huidige objecten weergeven
+```{r}
+objects()
+```
+
+objecten verwijderen
+```{r}
+rm (lijst, meanY)
+objects()
+```
+
+toekenning van een nieuw object
+```{r}
+nieweVar <- "dit is een test"
+nieweVar
+```
+
+toekenning van een lijst
+
+* let op: R is niet null based, het eerste element heeft dus index 1 en niet 0
+```{r}
+lijst <- c(10, 15, 20, 35)
+lijst
+lijst[1]
+```
+
+## csv bestanden
+
+### een csv file inlezen
+
+```{r}
+
+library(readr)
+puntenlijst <- read_csv("C:/Users/tijsm/Google Drive/HoGent 2018-2019/2e semester/Onderzoekstechnieken/files/onderzoekstechnieken-cursus/oefeningen/data/hfst5_toetsing/puntenlijst.csv")
+
+puntenlijst
+```
+### werken met een lijst
+
+de kolomnamen vragen
+```{r}
+names(puntenlijst)
+```
+
+
+kolommen
+```{r}
+attributes(puntenlijst)
+```
+
+
+
+## data types
+
+### numbers
+
+```{r}
+a <- 3
+a
+
+b <- sqrt(a*a+3)
+b
+
+```
+
+een lijst van nummers maken
+
+* een lijst van 10 cijfers
+```{r}
+c  <- numeric(10)
+c
+```
+
+type controlleren
+```{r}
+typeof(a)
+```
+
+## strings
+
+```{r}
+a <- "dit is een sting"
+a
+
+b <- c("dit", "is", "een", "lijst", "van", "strings")
+b
+b[2]
+
+```
+
+
+## factors
+
+als een nominale variabele moet vervormd worden naar een integer waarde maken we gebruik van het commando "factor"
+
+* voorbeeld van een nominale variabele is vb. "veel", "goed", "tevreden", ....
+```{r}
+a <- c(1,2,3,4)
+b <- c(2,4,6,8)
+levels <- factor("A","B","A","B")
+```
+
+
+## data frames
+
+verschillende vectoren van verschillende types nemen en deze allemaal in dezelfde variabele(lijst) opslaan
+
+```{r}
+bubba <- data.frame(first=a, second=b, f=levels)
+bubba
+```
+
+```{r}
+bubba$first
+bubba$f
+```
+
+
+## tables
+
+```{r}
+a <- factor(c("A","G","A","D","A","A","G","D","F","V"))
+results <- table(a)
+results
+
+summary(results)
+```
+
+
+## matrix
+
+aanmaken van een matrix
+```{r}
+A = matrix(
+  c(2,4,3,1,5,7), #data
+  nrow = 2,   #aantal rijen
+  ncol = 3,   #aantal kolommen
+  byrow = TRUE   #vullen per rij (niet per kollom)
+)
+A
+```
+
+selecteren van elementen binnnen een matrix
+```{r}
+A[2, 3] #element op rij 2 kollom 3
+
+A[2, ] # volledig tweede rij
+
+A[ ,c(1,3)] #eerste en derde kolom
+```
+
+
+
+# Oefeningen
+
+## oefening 1.2. 
+
+### opgave
+
+Bekijk de dataset mtcars. Geef de waarde terug voor de eerste rij, tweede kolom.
+Geef ook het aantal rijen, het aantal kolommen. Geef ook een preview van het volledige data
+frame. Geef enkel de kolom terug met de definities van de cylinders. Om een data frame te
+bekomen met de twee kolommen mpg en hp, pakken we de kolomnamen in een indexvector in
+met single square bracket operator. Probeer ook eens op te zoeken hoe je een rijrecord van de
+ingebouwde data set mtcars bepaalt.
+
+### oplossing
+
+Geef de waarde terug voor de eerste en de tweede rij
+```{r}
+mtcars[1]
+mtcars[2]
+```
+
+geef het aantal rijen en kolommen
+
+```{r}
+nrow(mtcars)
+ncol(mtcars)
+```
+
+preview van dataframe
+
+```{r}
+mtcars
+```
+
+
+preview van slechts 2 kolommen
+
+```{r}
+kolommen <- c(1,4)
+
+mtcars[kolommen]
+```
+
+
+
+## oefening 1.3. 
+
+## opgave 
+
+Maak zelf een willekeurige datafile aan in Excel en probeer deze in te lezen in R.
+Zijn er nog dataformaten die ondersteund worden door R? 
+
+## oplossing
+
+skip
+
