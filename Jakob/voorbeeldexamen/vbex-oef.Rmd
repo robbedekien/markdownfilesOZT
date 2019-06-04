@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 > Academiejaar 2016-2017 - 1e examenperiode (juni 2017)
 >
-> Antwoorden staan _cursief_ of zijn output van R.
+> Antwoorden staan *cursief* of zijn output van R.
 
 ***
 
@@ -38,22 +38,52 @@ q3
 ## a. Bereken het $95\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
 
 ```{r}
+n <- 113
+steekproefgem <- 80.08
+sd <- 12.13
+nauwkeurigheid <- 0.95 # 95%
 
+alpha <- 1 - nauwkeurigheid
+
+# |ondergrens| en bovengrens voor grote steekproef (n > 30)
+z <- qnorm(1-alpha/2)
+z <- round(z, digits=3) # z-waarde afronden
+
+# berekenen van het betrouwbaarheidsinterval
+steekproefgem - z * sd / sqrt(n) # ondergrens
+steekproefgem + z * sd / sqrt(n) # bovengrens
 ```
+
+*Ofwel via formule $\overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{pq}}{n}}$ met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1 - \overline{p}$.*
 
 ## b. Bereken het $99\%$ betrouwbaarheidsinterval voor de gemiddelde hartslag in de populatie van de studenten en toon hoe je eraan komt. (rond je $z$-waarde af tot drie cijfers na de komma)
 
 ```{r}
+n <- 113
+steekproefgem <- 80.08
+sd <- 12.13
+nauwkeurigheid <- 0.99 # 99% (!)
 
+alpha <- 1 - nauwkeurigheid
+
+# |ondergrens| en bovengrens voor grote steekproef (n > 30)
+z <- qnorm(1-alpha/2)
+z <- round(z, digits=3) # z-waarde afronden
+
+# berekenen van het betrouwbaarheidsinterval
+steekproefgem - z * sd / sqrt(n) # ondergrens
+steekproefgem + z * sd / sqrt(n) # bovengrens
 ```
+
+*Ofwel via formule $\overline{p} \pm z_{\frac{\alpha}{2}} \sqrt{\frac{\overline{pq}}{n}}$ met $\overline{p} = \frac{x}{n}$ en $\overline{q} = 1 - \overline{p}$.*
 
 # 3. Een uitvinder heeft een nieuwe, energie-efficiënte grasmaaimachine ontwikkeld. Hij beweert dat de motor gedurende 5 uur ($300$ minuten) voortdurend op een enkele liter gewone benzine loopt. Uit zijn voorraad van $2000$ motoren selecteert de uitvinder een aselecte steekproef van $50$ motoren. De motoren lopen gemiddeld $295$ minuten, met een standaardafwijking van $20$ minuten. Test de nulhypothese dat de gemiddelde looptijd $300$ minuten is tegen de alternatieve hypothese dat de gemiddelde looptijd geen $300$ minuten bedraagt. Gebruik $\alpha = 0,05$ en gebruik de methode met de $p$-waarde. (Veronderstel dat de looptijden van motoren normaal zijn verdeeld en rond tussentijdse resultaten af tot drie cijfers na de komma)
 
 ## a. Geef $H_0$ en $H_1$
 
-_$H_0$: _
+*$H_0$: *
 
-_$H_1$: _
+*$H_1$: *
 
 ## b. Voer de test uit
 
