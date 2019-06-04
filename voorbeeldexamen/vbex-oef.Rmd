@@ -18,13 +18,19 @@ knitr::opts_chunk$set(echo = TRUE)
 ## a. Geef het gemiddelde van de variabele `mpg` (3 cijfers afgerond)
 
 ```{r}
-
+gemiddelde <- mean(mtcars$mpg)
+round(gemiddelde, digits = 3) # Afronden
 ```
 
 ## b. Geef $Q_1$, $Q_2$, $Q_3$
 
 ```{r}
-
+q1 <- quantile(mtcars$mpg,0.25)
+q1
+q2 <- median(mtcars$mpg)
+q2
+q3 <- quantile(mtcars$mpg,0.75)
+q3
 ```
 
 # 2. Een steekproef van $113$ studenten levert een gemiddelde hartslag van $80,08$ slagen/minuut. Men weet dat de standaardafwijking $\sigma = 12,13$ slagen/minuut.
