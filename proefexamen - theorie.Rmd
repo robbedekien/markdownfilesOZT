@@ -1,0 +1,114 @@
+---
+title: "proefexamen-theorie"
+author: "TijsMartens"
+date: "4 juni 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# vraag 1
+
+de 4 belangrijke concepten (begin hoofdstuk 2)
+
+* exploratie
+* beschrijving
+* voorspellen
+* controlleren
+
+
+2 concepten in de cartoon
+
+* exploratie: de jongen in de cartoon gaat uitroberen wat er gebeurt als hij melk via zijn neus inademd
+* voorspelling: hij voorspelt dat de melk door zijn oren terug naar buiten zal vliegen.
+
+
+
+# vraag 2
+
+* stelling 1: fout
+* stelling 2: fout
+* stelling 3: juist
+* stelling 4: fout
+* stelling 5: juist
+* stelling 6: juist (wtf is dit????)
+
+
+# vraag 3
+
+## a
+
+normale formule steekproefgemiddelde: $\frac{1}{n} \sum (x_i)$
+
+
+normale formule: s $\frac{1}{n} \sum_{i=1}^{n} (\mu - x_i)^2$ 
+
+
+aangepaste formule steekproefgemiddelde: 
+
+* ??
+
+aangepaste fourmule s
+
+* ??
+
+# vraag 4
+
+a. correlatiecoëfficiënt
+b. lineaire
+c. positief lineair verband
+d. negatief lineair verband
+
+
+# vraag 5
+
+* stelling 1: fout
+* stelling 2: fout
+* stelling 3: juist
+* stelling 4: juist
+* stelling 5: fout
+* stelling 6: juist
+
+
+# vraag 6
+
+_echt geen idee tbh.... :-( _
+
+* methode 1: aantal elementen in steekproef vergroten
+* methode 2: zorgen voor een kleinere standaardafwijking
+
+
+_echt geen idee als dit is wat ze bedoelen :'-( _
+
+
+# vraag 7
+
+een type I fout is een fout waarbij $H_0$ verworen werd zonder dat dit mocht
+
+een type II fout is een fout waarbij $H_0$ aanvaard wordt, terwijl dit niet de bedoeling was.
+
+
+# vraag 8
+
+a. Nee dit is geen aselecte methode. Mensen die niet beschikken over toegang tot het internet hebben 0% kans om opgenomen te worden in de steekproef.
+
+b. Bij dit soort steekproef wordt er een systematische niet-steekproeffout gemaakt, de klant haalt er voordeel uit om "nee" te antwoorden zodat zijn factuur lager blijft
+
+
+# vraag 9
+
+Het is niet omdat de brandweer meer schade aanbrengt met blussen dat er in totaal mee schade is. 
+Als er meer brandweermannen aanwezig zijn en er met meer geblust wordt, zal de brand sneller geblust zijn maar zal het vuur minder schade aanbrengen.
+
+Er zal dus inderdaad meer waterschade etc zijn maar de totale schade met meer brandweermannen zal kleiner zijn
+
+
+# vraag 10
+
+een kleine alpha zorgt ervoor dat waarden minder lang worden 'onthouden' en dat er sneller geen rekening wordt met gehouden om voorspellingen te doen.
+
+
