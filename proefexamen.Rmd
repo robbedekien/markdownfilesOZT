@@ -85,7 +85,7 @@ $h_1$: de motoren kunnenn geen 300 minuten werken met 1 liter bezine
 
 ## b
 ```{r}
-#data in te geven in script "t-test"
+#data in te geven in script "z-test"
 
 n = 50
 steekproefGem = 300
@@ -205,7 +205,7 @@ wenende
 
 ## c
 
-R² --> determinantcoëfficiënt
+RÂ² --> determinantcoÃ«fficiÃ«nt
 
 ## d
 
