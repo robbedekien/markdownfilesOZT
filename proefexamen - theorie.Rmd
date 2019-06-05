@@ -3,6 +3,7 @@ title: "proefexamen-theorie"
 author: "TijsMartens"
 date: "4 juni 2019"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---

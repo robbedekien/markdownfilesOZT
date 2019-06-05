@@ -4,6 +4,7 @@ author: "Tijs Martens"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -88,7 +89,7 @@ $h_1$: de motoren kunnenn geen 300 minuten werken met 1 liter bezine
 
 n = 50
 steekproefGem = 300
-standaardafwijking = 20  # van de steekproef!!! Dus s en niet Ïƒ !!!
+standaardafwijking = 20  # van de steekproef!!!
 alpha = 0.05
 populatieGem =  295
 
@@ -107,29 +108,33 @@ We mogen dus niet zeggen dat de grasmachines 300 minuten kunnen werken met 1 lit
 # vraag 4
 ```{r}
 breakingBad <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\proefexamen\\breakingbad.csv")
-
-breakingBad
 ```
 
 ## a
 
-meetniveau:
+```{r}
+breakingBad$UserRating
+```
 
-rationiveau
 
-(is kwalitatief en heeft een nulpunt)
+kwantitatief --> rationiveau 
+heeft wel een nulpunt
 
 ## b
 
+```{r}
+breakingBad$Season.episode
+```
 
-intervalniveau
-
+kwalitatief --> ordinaal
+er kan neit met gerekend worden, er zit wel een ordening in.
 
 ## a
 
 covariantie
 4.910656
-??????????
+
+*zie scripts*
 
 
 ## b
@@ -137,24 +142,74 @@ covariantie
 correlatie
 0.5460384
 
-
-
+De Waarde is positief en dus kunnen we conluderen dat er een positief lineair verband is.
 
 ## c
 
-????
+```{r}
+cor <- cor(breakingBad$ID, breakingBad$UserRating)
+cor^2
+```
+Deze waarde verklaart het percentage van de variantie van de waargenomen waarden tegenover de re-
+gressierechte.
 
+## d
+```{r}
+breakingBad$UserRating
+```
+
+```{r}
+breakingBad$Season.episode
+```
+
+```{r}
+scoresSeizoen1<-c(9, 8.7, 8.7, 8.3, 8.4, 9.2, 8.8)
+scoresSeizoen5 <- c(9.3  ,8.9  ,8.9 , 8.8  ,9.6 , 9.0,  9.5 , 9.6,  9.4  ,9.1  ,9.6 , 9.1,  9.8 ,10.0,  9.6,  9.9)
+length(scoresSeizoen1)
+length(scoresSeizoen5)
+
+mean(scoresSeizoen1)
+mean(scoresSeizoen5)
+```
+
+antwoord:
+
+voor seizoen1: 8.729
+voor seizoen5: 9.381
+
+
+
+# vraag 5
+
+hier snap ik nu ne keer helemaal niets van
+ma legit niks
+
+:'-(
+```{r}
+  kids <- read.csv("C:\\Users\\tijsm\\Google Drive\\HoGent 2018-2019\\2e semester\\Onderzoekstechnieken\\proefexamen\\kids.csv")
+
+```
+
+
+
+## a
+
+$h_0$:: de variabele goal heeft geen invloed op de variabele grade
+
+
+$h_1$ : Kinderen die als goal goeie punten behallen hebben zullen beter scoren op school
+
+## b
+
+wenende
+
+## c
+
+R² --> determinantcoëfficiënt
 
 ## d
 
-????
 
-
-
-## vraag 4
-
-big oef
-wtf is dit
 
 
 
